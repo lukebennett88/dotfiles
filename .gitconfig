@@ -1,0 +1,37 @@
+[user]
+  name = Luke Bennett
+  email = luke.bennett88@gmail.com
+
+[alias]
+  co = checkout
+  cp = cherry-pick
+  ci = commit
+  st = status
+  br = branch
+
+[color]
+  ui = auto
+  [color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+  [color "diff"]
+    meta = yellow
+    frag = magenta
+    old = red
+    new = green
+    whitespace = red reverse
+  [color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[core]
+  whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+  excludesfile = ~/.gitignore
+
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
