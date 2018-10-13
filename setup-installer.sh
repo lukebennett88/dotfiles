@@ -44,4 +44,4 @@ mas install 904280696 #Things
 mas install 1384080005 #Tweetbot
 
 # Global Node.js packages
-yarn global add eslint gatsby-cli postcss-cli surge
+yarn global add @11ty/eleventy autoprefixer babel-eslint eslint eslint-config-airbnb eslint-config-prettier eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-prettier eslint-plugin-react gatsby-cli postcss-cli prettier surge
