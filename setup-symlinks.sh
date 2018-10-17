@@ -8,6 +8,7 @@ ln -sv ~/.dotfiles/.gitignore ~
 ln -sv ~/.dotfiles/.hushlogin ~
 ln -sv ~/.dotfiles/.hyper.js ~
 ln -sv ~/.dotfiles/.inputrc ~
+ln -sv ~/.dotfiles/.markdownlint.json ~
 ln -sv ~/.dotfiles/.stylelintrc ~
 ln -sv ~/.dotfiles/.vimrc ~
 ln -sv ~/.dotfiles/config.fish ~/.config/fish/
