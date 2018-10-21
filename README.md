@@ -10,7 +10,7 @@
 2. Install git: `brew install git`
 3. Clone dotfiles to home directory: `git clone https://github.com/lukebennett88/dotfiles ~/.dotfile`
 4. Update terminal theme:
-    - Open `cd ~/.dotfiles ; open .`
+    - Open dotfiles directory `cd ~/.dotfiles ; open .`
     - Double click on `gatito.terminal`
     - In Terminal `Preferences > Profiles` select Gatito from sidebar and select `Default`
 5. Run script to set up symlinks: `source ~/.dotfiles/setup-symlinks.sh`
@@ -28,7 +28,7 @@
     - Make sure Alfred Clipboard is enabled: `Preferences > Features > Clipboard > Keep Plain Text` check checkbox and set to 7 days
     - Make sure Gatito theme is enabled, it is included in the dotfiles under `gatito.alfredappearance` if it is not
 10. Configure iTerm:
-    - Preferences > General > Preferences > Load preferences from a custom folder or URL: `~/.dotfile`
+    - `Preferences > General > Preferences > Load preferences from a custom folder or URL:` and set to `~/.dotfile`
     - Make sure Gatito theme is enabled, it is included in the dotfiles under `gatito.itermcolors` if it is not
 11. Configure fish:
     - Set fish as default shell `chsh -s /usr/local/bin/fish`
