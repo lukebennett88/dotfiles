@@ -20,7 +20,6 @@ brew cask install google-chrome
 brew cask install hazel
 brew cask install imageoptim
 brew cask install iterm2
-brew cask install moom
 brew cask install slack
 brew cask install visual-studio-code
 
@@ -32,7 +31,7 @@ brew cask install font-ibm-plex
 mas install 1107421413 #1Blocker
 mas install 1333542190 #1Password
 mas install 1091189122 #Bear
-mas install 419330170 #Moom
+mas install 441258766 #Magnet
 mas install 451907568 #Paprika Recipe Manager
 mas install 403504866 #PCalc
 mas install 1160374471 #PiPifier
