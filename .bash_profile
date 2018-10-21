@@ -15,6 +15,22 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
+# Shorten `clear` command to `c`
+alias c="clear"
+
+# Open the current directory in the Finder
+alias f="open ."
+
+# Kill whichever port in inputted after `terminate` command
+function terminate {
+  lsof -ti:"$@" | xargs kill
+}
+
+# list content of directory upon cd-ing into it
+function cd {
+  builtin cd "$@" && ls -lhA
+}
+
 # why your mac is so slow?
 alias top="top -o vsize"
 
