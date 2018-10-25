@@ -4,17 +4,17 @@
       "textSpacing" : 5,
       "subtext" : {
         "size" : 15,
-        "colorSelected" : "#FFFFFFC4",
+        "colorSelected" : "#BFC4CEFF",
         "font" : "System",
-        "color" : "#5F605FFF"
+        "color" : "#4E5A66FF"
       },
       "shortcut" : {
         "size" : 16,
         "colorSelected" : "#5E605EFF",
         "font" : "System",
-        "color" : "#5D605DFF"
+        "color" : "#4E5A66FF"
       },
-      "backgroundSelected" : "#232A2EFF",
+      "backgroundSelected" : "#333C46FF",
       "text" : {
         "size" : 18,
         "colorSelected" : "#D1D2D1FF",
@@ -27,18 +27,18 @@
     },
     "search" : {
       "paddingVertical" : 4,
-      "background" : "#232A2EFF",
+      "background" : "#1A2A34FF",
       "spacing" : 8,
       "text" : {
         "size" : 34,
         "colorSelected" : "#000000FF",
         "font" : "System",
-        "color" : "#D1D2D1FF"
+        "color" : "#BFC4CEFF"
       },
       "backgroundSelected" : "#B3D7FFFF"
     },
     "window" : {
-      "color" : "#1C2225FF",
+      "color" : "#0E1B23FF",
       "paddingHorizontal" : 9,
       "width" : 559,
       "borderPadding" : 0,
@@ -53,9 +53,9 @@
       "thickness" : 0
     },
     "scrollbar" : {
-      "color" : "#5E605EFF",
+      "color" : "#1A2A34FF",
       "thickness" : 4
     },
-    "name" : "Gatito"
+    "name" : "Oceanic Next"
   }
 }
