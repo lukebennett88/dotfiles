@@ -699,9 +699,9 @@
   <key>NSWindow Frame SUUpdateAlert</key>
   <string>1009 768 620 392 0 0 2560 1417 </string>
   <key>NSWindow Frame SharedPreferences</key>
-  <string>158 911 928 394 0 0 2560 1417 </string>
+  <string>1043 363 796 486 0 0 2560 1417 </string>
   <key>NSWindow Frame iTerm Window 0</key>
-  <string>1377 770 650 502 0 0 2560 1417 </string>
+  <string>744 818 650 502 0 0 2560 1417 </string>
   <key>NSWindow Frame iTerm Window 1</key>
   <string>1619 621 570 452 0 0 2560 1417 </string>
   <key>New Bookmarks</key>
@@ -893,14 +893,16 @@
       <true/>
       <key>Background Color</key>
       <dict>
+        <key>Alpha Component</key>
+        <real>1</real>
         <key>Blue Component</key>
-        <real>0.1297074556350708</real>
+        <real>0.20392156862745098</real>
         <key>Color Space</key>
-        <string>Calibrated</string>
+        <string>sRGB</string>
         <key>Green Component</key>
-        <real>0.10740385949611664</real>
+        <real>0.16862745098039217</real>
         <key>Red Component</key>
-        <real>0.071905560791492462</real>
+        <real>0.10196078431372549</real>
       </dict>
       <key>Background Image Location</key>
       <string></string>
