@@ -7,10 +7,9 @@ brew install fish
 brew install git
 brew install hugo
 brew install mas
-brew install node
+brew install node@10
 brew install trash
 brew install tree
-brew install yarn
 brew install youtube-dl
 
 # Cask apps
