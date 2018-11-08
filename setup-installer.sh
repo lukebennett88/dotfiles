@@ -42,4 +42,23 @@ mas install 904280696 #Things
 mas install 1384080005 #Tweetbot
 
 # Global Node.js packages
-npm i -g @11ty/eleventy autoprefixer babel-eslint eslint eslint-config-airbnb eslint-config-prettier eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-prettier eslint-plugin-react gatsby-cli postcss-cli prettier surge
+npm i -g npm@latest
+npm i -g @11ty/eleventy
+npm i -g autoprefixer
+npm i -g babel-eslint
+npm i -g create-react-app
+npm i -g eslint
+npm i -g eslint-config-airbnb
+npm i -g eslint-config-prettier
+npm i -g eslint-config-standard
+npm i -g eslint-plugin-import
+npm i -g eslint-plugin-jsx-a11y
+npm i -g eslint-plugin-node
+npm i -g eslint-plugin-prettier
+npm i -g eslint-plugin-promise
+npm i -g eslint-plugin-react
+npm i -g eslint-plugin-standard
+npm i -g gatsby-cli@latest
+npm i -g postcss-cli
+npm i -g prettier
+npm i -g surge
