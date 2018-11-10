@@ -2,22 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>autoExpandMidString</key>
-	<true/>
-	<key>autoExpandSnippetsIgnoreApps</key>
-	<array/>
-	<key>blacklist</key>
-	<array/>
-	<key>hotkey</key>
+	<key>default</key>
 	<dict>
 		<key>key</key>
-		<integer>9</integer>
+		<integer>49</integer>
 		<key>mod</key>
-		<integer>1310720</integer>
+		<integer>3222274048</integer>
 		<key>string</key>
-		<string>V</string>
+		<string>Space</string>
 	</dict>
-	<key>snippetsAtTop</key>
-	<false/>
 </dict>
 </plist>
