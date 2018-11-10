@@ -8,7 +8,7 @@
 
 1. Install [Homebrew](https://brew.sh/)
 2. Install git: `brew install git`
-3. Clone dotfiles to home directory: `git clone https://github.com/lukebennett88/dotfiles ~/.dotfile`
+3. Clone dotfiles to home directory: `git clone https://github.com/lukebennett88/dotfiles ~/.dotfiles`
 4. Update terminal theme:
     - Open dotfiles directory `cd ~/.dotfiles ; open .`
     - Double click on `oceanic-next.terminal`
