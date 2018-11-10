@@ -1,15 +1,18 @@
 #!/bin/bash
 
-ln -sv ~/.dotfiles/.bash_profile ~
-ln -sv ~/.dotfiles/.eslintrc.js ~
-ln -sv ~/.dotfiles/.gitattributes ~
-ln -sv ~/.dotfiles/.gitconfig ~
-ln -sv ~/.dotfiles/.gitignore ~
-ln -sv ~/.dotfiles/.hushlogin ~
-ln -sv ~/.dotfiles/.inputrc ~
-ln -sv ~/.dotfiles/.markdownlint.json ~
-ln -sv ~/.dotfiles/.prettierrc.js ~
-ln -sv ~/.dotfiles/.stylelintrc ~
-ln -sv ~/.dotfiles/.vimrc ~
-ln -sv ~/.dotfiles/config.fish ~/.config/fish/
-ln -sv ~/.dotfiles/fishfile ~/.config/fish/
+# Home folder
+ln -s -f $HOME/.dotfiles/.bash_profile $HOME/.bash_profile
+ln -s -f $HOME/.dotfiles/.eslintrc.js $HOME/.eslintrc.js
+ln -s -f $HOME/.dotfiles/.gitattributes $HOME/.gitattributes
+ln -s -f $HOME/.dotfiles/.gitconfig $HOME/.gitconfig
+ln -s -f $HOME/.dotfiles/.gitignore $HOME/.gitignore
+ln -s -f $HOME/.dotfiles/.hushlogin $HOME/.hushlogin
+ln -s -f $HOME/.dotfiles/.inputrc $HOME/.inputrc
+ln -s -f $HOME/.dotfiles/.markdownlint.json $HOME/.markdownlint.json
+ln -s -f $HOME/.dotfiles/.prettierrc.js $HOME/.prettierrc.js
+ln -s -f $HOME/.dotfiles/.stylelintrc $HOME/.stylelintrc
+ln -s -f $HOME/.dotfiles/.vimrc $HOME/.vimrc
+
+# Fish
+ln -s -f $HOME/.dotfiles/config.fish $HOME/.config/fish/config.fish
+ln -s -f $HOME/.dotfiles/fishfile $HOME/.config/fish/fishfile
