@@ -14,5 +14,4 @@ ln -s -f $HOME/.dotfiles/.stylelintrc $HOME/.stylelintrc
 ln -s -f $HOME/.dotfiles/.vimrc $HOME/.vimrc
 
 # Fish
-ln -s -f $HOME/.dotfiles/config.fish $HOME/.config/fish/config.fish
-ln -s -f $HOME/.dotfiles/fishfile $HOME/.config/fish/fishfile
+ln -s -f $HOME/.dotfiles/fish $HOME/.config/
