@@ -1,3 +1,6 @@
+# No greeting
+set fish_greeting
+
 # Install Fisher
 if not functions -q fisher
     set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
@@ -10,7 +13,7 @@ function c
   clear $argv
 end
 
-# list content of directory upon cd-ing into it
+# Show directory listing on directory change
 function cd
   builtin cd $argv ; ls -lhA
 end
