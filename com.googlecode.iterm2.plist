@@ -630,9 +630,9 @@
 	<key>Hotkey</key>
 	<true/>
 	<key>HotkeyChar</key>
-	<integer>96</integer>
+	<integer>27</integer>
 	<key>HotkeyCode</key>
-	<integer>50</integer>
+	<integer>53</integer>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
 	<key>HotkeyModifiers</key>
@@ -686,9 +686,9 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>1169 110 445 286 0 0 1680 1027 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>269 257 918 423 0 0 1680 1027 </string>
+	<string>269 289 796 486 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>191 174 650 452 0 0 1680 1027 </string>
+	<string>191 124 650 452 0 0 1680 1027 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
