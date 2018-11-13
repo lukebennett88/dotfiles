@@ -1,26 +1,29 @@
 #!/bin/bash
 
+# Priority
+brew install mas
+mas install 1333542190 #1Password
+brew cask install alfred
+brew cask install visual-studio-code
+
 # CLI
 brew install bash-completion
 brew install cowsay
 brew install fish
 brew install git
 brew install hugo
-brew install mas
-brew install node@10
+brew install node
 brew install trash
 brew install tree
 brew install youtube-dl
 
 # Cask apps
-brew cask install alfred
 brew cask install cleanmymac
 brew cask install google-chrome
 brew cask install hazel
 brew cask install imageoptim
 brew cask install iterm2
 brew cask install slack
-brew cask install visual-studio-code
 
 # Fonts
 brew tap homebrew/cask-fonts
@@ -30,7 +33,6 @@ brew cask install font-ibm-plex
 
 # Mac App Store apps
 mas install 1107421413 #1Blocker
-mas install 1333542190 #1Password
 mas install 1091189122 #Bear
 mas install 441258766 #Magnet
 mas install 451907568 #Paprika Recipe Manager
