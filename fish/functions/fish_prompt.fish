@@ -1,33 +1,37 @@
+# Pure
+# by Rafael Rinaldi
+# https://github.com/rafaelrinaldi/pure
+# MIT License
+
 function fish_prompt
-	# Store the exit code of the last command
-	set -g sf_exit_code $status
-	set -g SPACEFISH_VERSION 1.7.0
+  set -l prompt ""
 
-	# ------------------------------------------------------------------------------
-	# Configuration
-	# ------------------------------------------------------------------------------
+  # Save previous exit code
+  set -l exit_code $status
 
-	__sf_util_set_default SPACEFISH_PROMPT_ADD_NEWLINE true
-	__sf_util_set_default SPACEFISH_PROMPT_FIRST_PREFIX_SHOW false
-	__sf_util_set_default SPACEFISH_PROMPT_PREFIXES_SHOW true
-	__sf_util_set_default SPACEFISH_PROMPT_SUFFIXES_SHOW true
-	__sf_util_set_default SPACEFISH_PROMPT_DEFAULT_PREFIX "via "
-	__sf_util_set_default SPACEFISH_PROMPT_DEFAULT_SUFFIX " "
-	__sf_util_set_default SPACEFISH_PROMPT_ORDER time user dir host git package node ruby golang php rust haskell julia docker aws conda pyenv kubecontext exec_time line_sep battery jobs exit_code char
+  # Set default color symbol to green meaning it's all good!
+  set -l color_symbol $pure_color_green
 
-	# ------------------------------------------------------------------------------
-	# Sections
-	# ------------------------------------------------------------------------------
+  # Handle previous failed command
+  if test $exit_code -ne 0
+    # Symbol color is red when previous command fails
+    set color_symbol $pure_color_red
+    if test $pure_separate_prompt_on_error -eq 1
+      set color_symbol $pure_color_red$pure_symbol_prompt$pure_color_green
+    end
+  end
 
-	# Keep track of whether the prompt has already been opened
-	set -g sf_prompt_opened $SPACEFISH_PROMPT_FIRST_PREFIX_SHOW
+  # Show python virtualenv name (if activated)
+  if test -n "$VIRTUAL_ENV"
+    set prompt $prompt $pure_color_gray(basename "$VIRTUAL_ENV")"$pure_color_normal "
+  end
 
-	if test "$SPACEFISH_PROMPT_ADD_NEWLINE" = "true"
-		echo
-	end
+  # vi-mode indicator
+  set mode_indicator (fish_default_mode_prompt)
 
-	for i in $SPACEFISH_PROMPT_ORDER
-		eval __sf_section_$i
-	end
-	set_color normal
+  set prompt $prompt "$mode_indicator$color_symbol$pure_symbol_prompt$pure_color_normal "
+
+  echo -e -s $prompt
+
+  set __pure_fresh_session 0
 end
