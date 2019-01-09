@@ -1,20 +1,28 @@
 module.exports = {
   env: {
     browser: true,
-    es6: true
+    node: true,
+    commonjs: true,
+    es6: true,
+    worker: true,
+    jest: true,
+    jquery: true,
+    mongo: true,
+    applescript: true,
+    serviceworker: true
   },
   extends: ["plugin:jsx-a11y/recommended", "plugin:prettier/recommended"],
-  plugins: ["react"],
-  globals: {
-    graphql: false
-  },
   parser: "babel-eslint",
   parserOptions: {
+    ecmaVersion: 2018,
     sourceType: "module",
     ecmaFeatures: {
-      experimentalObjectRestSpread: true,
-      jsx: true
+      jsx: true,
+      impliedStrict: true
     }
   },
-  plugins: ["jsx-a11y", "prettier", "react"]
+  plugins: ["jsx-a11y", "prettier", "react"],
+  rules: {
+    "no-console": 1
+  }
 };
