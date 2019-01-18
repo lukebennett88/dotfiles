@@ -9,20 +9,17 @@ module.exports = {
     jquery: true,
     mongo: true,
     applescript: true,
-    serviceworker: true
+    serviceworker: true,
   },
-  extends: ["plugin:jsx-a11y/recommended", "plugin:prettier/recommended"],
-  parser: "babel-eslint",
+  extends: ['plugin:jsx-a11y/recommended', 'plugin:prettier/recommended'],
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: "module",
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
-      impliedStrict: true
-    }
+      impliedStrict: true,
+    },
   },
-  plugins: ["jsx-a11y", "prettier", "react"],
-  rules: {
-    "no-console": 1
-  }
+  plugins: ['jsx-a11y', 'prettier', 'react'],
 };
