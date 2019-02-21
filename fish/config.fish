@@ -1,3 +1,5 @@
+set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
+
 # No greeting
 set fish_greeting
 

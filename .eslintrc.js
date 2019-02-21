@@ -1,15 +1,15 @@
 module.exports = {
   env: {
+    applescript: true,
     browser: true,
-    node: true,
     commonjs: true,
     es6: true,
-    worker: true,
     jest: true,
     jquery: true,
     mongo: true,
-    applescript: true,
+    node: true,
     serviceworker: true,
+    worker: true,
   },
   extends: ['plugin:jsx-a11y/recommended', 'plugin:prettier/recommended'],
   parser: 'babel-eslint',
@@ -20,6 +20,9 @@ module.exports = {
       jsx: true,
       impliedStrict: true,
     },
+  },
+  globals: {
+    graphql: false,
   },
   plugins: ['jsx-a11y', 'prettier', 'react'],
 };
