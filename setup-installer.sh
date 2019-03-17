@@ -7,8 +7,6 @@ brew cask install alfred
 brew cask install visual-studio-code
 
 # CLI
-brew install bash-completion
-brew install cowsay
 brew install fish
 brew install git
 brew install hugo
@@ -43,7 +41,6 @@ mas install 880001334 #Reeder
 mas install 803453959 #Slack
 mas install 425424353 #The Unarchiver
 mas install 904280696 #Things
-mas install 1384080005 #Tweetbot
 
 # Global Node.js packages
 npm i -g npm@latest

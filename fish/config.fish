@@ -16,14 +16,9 @@ function c
 end
 
 # Show directory listing on directory change
-function cd
-  builtin cd $argv ; ls -lhA
-end
-
-# Open current directory in Finder
-function f
-  open -a finder ./ $argv
-end
+# function cd
+#   builtin cd $argv ; ls -lhA
+# end
 
 # Kill whichever port in inputted after `terminate` command
 function terminate
