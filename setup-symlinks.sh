@@ -6,6 +6,7 @@ ln -s -f $HOME/.dotfiles/.gitattributes $HOME/.gitattributes
 ln -s -f $HOME/.dotfiles/.gitconfig $HOME/.gitconfig
 ln -s -f $HOME/.dotfiles/.gitignore $HOME/.gitignore
 ln -s -f $HOME/.dotfiles/.hushlogin $HOME/.hushlogin
+ln -s -f $HOME/.dotfiles/.eslintrc $HOME/.eslintrc
 
 # Fish
 ln -s -f $HOME/.dotfiles/fish $HOME/.config/
