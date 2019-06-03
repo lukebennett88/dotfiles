@@ -38,7 +38,7 @@
   required = true
 
 [credential]
-  helper = store
+	helper = osxkeychain
 
 # This next lines include Netlify's Git Credential Helper configuration in your Git configuration.
 [include]
