@@ -1,12 +1,15 @@
-# Set title to current folder and shell name
-function fish_title
-    set -l basename (string replace -r '^.*/' '' -- $PWD)
-    set -l current_folder (_pure_parse_directory)
-    set -l command $argv[1]
-    set -l prompt "$basename: $command $pure_symbol_horizontal_bar $_"
+function fish_title \
+    --description "Set title to current folder and shell name" \
+    --argument-names last_command
 
-    if test -z "$command"
-        set prompt "$current_folder $pure_symbol_horizontal_bar $_"
+    set --local basename (string replace -r '^.*/' '' -- $PWD)
+    set --local current_folder (_pure_parse_directory)
+    set --local current_command (status current-command 2>/dev/null; or echo $_)
+
+    set --local prompt "$basename: $last_command $pure_symbol_title_bar_separator $current_command"
+
+    if test -z "$last_command"
+        set prompt "$current_folder $pure_symbol_title_bar_separator $current_command"
     end
 
     echo $prompt

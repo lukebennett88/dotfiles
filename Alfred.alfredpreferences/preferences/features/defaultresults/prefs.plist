@@ -9,5 +9,9 @@
 		<string>features.websearch.amazon.fallback</string>
 		<string>features.websearch.wiki.fallback</string>
 	</array>
+	<key>showDocuments</key>
+	<true/>
+	<key>showTextFiles</key>
+	<true/>
 </dict>
 </plist>

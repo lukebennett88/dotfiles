@@ -1,6 +1,6 @@
 [user]
   name = Luke Bennett
-  email = luke.bennett88@gmail.com
+  email = hello@lukebennett.com.au
 
 [alias]
   co = checkout
@@ -29,9 +29,17 @@
 [core]
   whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
   excludesfile = ~/.gitignore
+  editor = code
 
 [filter "lfs"]
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process
   required = true
+
+[credential]
+  helper = store
+
+# This next lines include Netlify's Git Credential Helper configuration in your Git configuration.
+[include]
+  path = /Users/luke/.netlify/helper/git-config
