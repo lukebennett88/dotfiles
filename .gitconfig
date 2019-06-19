@@ -1,6 +1,6 @@
 [user]
-  name = Luke Bennett
-  email = hello@lukebennett.com.au
+	name = Luke Bennett
+	email = hello@lukebennett.com.au
 
 [alias]
   co = checkout
