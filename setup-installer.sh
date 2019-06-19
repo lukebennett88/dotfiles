@@ -60,6 +60,4 @@ npm i -g eslint-plugin-promise
 npm i -g eslint-plugin-react
 npm i -g eslint-plugin-standard
 npm i -g gatsby-cli@latest
-npm i -g postcss-cli
-npm i -g prettier
-npm i -g surge
+npx install-peerdeps --global eslint-config-wesbos
