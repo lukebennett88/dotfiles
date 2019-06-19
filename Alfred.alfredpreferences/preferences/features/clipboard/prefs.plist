@@ -4,6 +4,10 @@
 <dict>
 	<key>autoExpandMidString</key>
 	<true/>
+	<key>autoExpandSnippetsExcludedApps</key>
+	<array>
+		<string>com.runningwithcrayons.Alfred-Preferences</string>
+	</array>
 	<key>autoExpandSnippetsIgnoreApps</key>
 	<array/>
 	<key>blacklist</key>
