@@ -45,4 +45,5 @@ mas install 904280696 #Things
 # Global Node.js packages
 npm i -g npm@latest
 npm i -g gatsby-cli@latest
+npm i -g netlify-cli@latest
 npx install-peerdeps --global eslint-config-wesbos
