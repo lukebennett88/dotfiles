@@ -11,7 +11,9 @@
 	</array>
 	<key>showDocuments</key>
 	<true/>
-	<key>showTextFiles</key>
+	<key>showFolders</key>
+	<true/>
+	<key>showImages</key>
 	<true/>
 </dict>
 </plist>
