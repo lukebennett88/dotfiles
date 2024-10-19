@@ -1,0 +1,36 @@
+# Shared settings
+
+[user]
+  name = Luke Bennett  # Set the global user name for Git commits
+
+[core]
+  editor = code --wait  # Use Visual Studio Code as the default editor for Git (wait for the editor to close before continuing)
+  excludesfile = ~/.gitignore_global  # Specify a global .gitignore file for ignoring files globally across all repositories
+
+[branch]
+  sort = -committerdate  # Sort branches by most recent commit date (descending)
+
+[filter "lfs"]
+  clean = git-lfs clean -- %f  # Use Git LFS to clean files when they are added to the index
+  smudge = git-lfs smudge -- %f  # Use Git LFS to replace the pointer file with the actual file when checking out
+  process = git-lfs filter-process  # Use Git LFS to process files
+  required = true  # Ensure Git LFS is required for repositories that use it
+
+[push]
+  default = simple  # Set the default behavior of 'git push' to 'simple' (push the current branch to the remote branch of the same name)
+  autoSetupRemote = true  # Automatically set up the remote tracking branch for new branches
+
+[rerere]
+  enabled = true  # Enable 'reuse recorded resolution' for merges (auto-resolve conflicts you've resolved previously)
+  autoUpdate = true  # Automatically update the recorded resolution when resolving conflicts
+
+[init]
+  defaultBranch = main  # Set the default branch name to 'main' for new repositories
+
+# Personal configuration (acts as the default)
+[include]
+  path = ~/.gitconfig-personal  # Include personal Git configuration
+
+# Work-specific configuration
+[includeIf "gitdir:~/Code/work/"]  # Apply the following settings only if the repository is under $HOME/Code/work/
+  path = ~/.gitconfig-work  # Include work-specific Git configuration
