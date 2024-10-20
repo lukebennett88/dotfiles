@@ -46,7 +46,8 @@ zinit ice wait lucid; zinit snippet OMZP::sudo
 autoload -Uz compinit && compinit -C
 
 # Shell integrations
-eval "$(~/.local/bin/mise activate zsh)" # Activate mise-en-place (node version manager)
+eval "$(mise hook-env -s zsh)"
+eval "$(mise activate zsh)" # Activate mise-en-place (node version manager)
 eval "$(fzf --zsh)" # Enable fzf keybindings
 eval "$(zoxide init --cmd cd zsh)" # Enable zoxide shell integration (replacing 'cd')
 
