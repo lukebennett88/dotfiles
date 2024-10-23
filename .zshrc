@@ -36,14 +36,12 @@ zinit ice wait lucid; zinit light zsh-users/zsh-syntax-highlighting
 zinit ice wait lucid; zinit light zsh-users/zsh-autosuggestions
 zinit ice wait lucid; zinit light zsh-users/zsh-completions
 zinit ice wait lucid; zinit light Aloxaf/fzf-tab
+zinit ice wait lucid; zinit light grigorii-zander/zsh-npm-scripts-autocomplete
 
 # Zinit snippets
 zinit ice wait lucid; zinit snippet OMZL::git.zsh
 zinit ice wait lucid; zinit snippet OMZP::git
 zinit ice wait lucid; zinit snippet OMZP::sudo
-
-# Load completions (must come after plugins and snippets)
-autoload -Uz compinit && compinit -C
 
 # Shell integrations
 eval "$(mise hook-env -s zsh)"
