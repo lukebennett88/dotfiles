@@ -45,34 +45,31 @@ zinit ice wait lucid; zinit snippet OMZP::sudo
 
 # Shell integrations
 eval "$(mise hook-env -s zsh)"
-eval "$(mise activate zsh)" # Activate mise-en-place (node version manager)
-eval "$(fzf --zsh)" # Enable fzf keybindings
-eval "$(zoxide init --cmd cd zsh)" # Enable zoxide shell integration (replacing 'cd')
-
-# Enable npm script autocomplete (after mise is activated)
-source <(npm completion)
+eval "$(mise activate zsh)"															# Activate mise-en-place (node version manager)
+eval "$(fzf --zsh)"																			# Enable fzf keybindings
+eval "$(zoxide init --cmd cd zsh)"											# Enable zoxide shell integration (replacing 'cd')
 
 # History settings
-HISTSIZE=5000 # Maximum number of history entries stored in memory (commands per session)
-HISTFILE=~/.zsh_history # File where history is saved across sessions
-SAVEHIST=$HISTSIZE # Save the same number of history entries to file as the HISTSIZE
-HISTDUP=erase # Erase older duplicate commands when a new one is added (keeps only the latest)
-setopt appendhistory # Append history to the history file, rather than overwriting it, when a shell exits
-setopt sharehistory # Share history across all open terminal sessions
-setopt hist_ignore_space # Ignore commands that begin with a space (useful for private commands)
-setopt hist_ignore_all_dups # Remove all older duplicates from the entire history file
-setopt hist_save_no_dups # Avoid saving duplicates of the same command (only keeps the latest in memory)
-setopt hist_ignore_dups # Ignore consecutive duplicate commands in the current session
-setopt hist_find_no_dups # Prevent showing duplicates when searching for a command in history
+HISTSIZE=5000 																					# Maximum number of history entries stored in memory (commands per session)
+HISTFILE=~/.zsh_history 																# File where history is saved across sessions
+SAVEHIST=$HISTSIZE 																			# Save the same number of history entries to file as the HISTSIZE
+HISTDUP=erase 																					# Erase older duplicate commands when a new one is added (keeps only the latest)
+setopt appendhistory 																		# Append history to the history file, rather than overwriting it, when a shell exits
+setopt sharehistory 																		# Share history across all open terminal sessions
+setopt hist_ignore_space 																# Ignore commands that begin with a space (useful for private commands)
+setopt hist_ignore_all_dups															# Remove all older duplicates from the entire history file
+setopt hist_save_no_dups 																# Avoid saving duplicates of the same command (only keeps the latest in memory)
+setopt hist_ignore_dups 																# Ignore consecutive duplicate commands in the current session
+setopt hist_find_no_dups 																# Prevent showing duplicates when searching for a command in history
 
 # Keybindings
-bindkey '^[[A' history-search-backward  # Up arrow for history search
-bindkey '^[[B' history-search-forward   # Down arrow for history search
+bindkey '^[[A' history-search-backward									# Up arrow for history search
+bindkey '^[[B' history-search-forward										# Down arrow for history search
 
 # Completion styling
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' # Make autocomplete case-insensitive (only for lowercase input)
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # Use the same colours as 'ls' for the autocompletion list (directories, files, etc.)
-zstyle ':completion:*' menu no # Disable the interactive menu for completions, showing only a list of matches
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'	# Make autocomplete case-insensitive (only for lowercase input)
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"	# Use the same colours as 'ls' for the autocompletion list (directories, files, etc.)
+zstyle ':completion:*' menu no													# Disable the interactive menu for completions, showing only a list of matches
 
 # Aliases
 alias ..='cd ..'
