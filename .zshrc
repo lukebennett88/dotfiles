@@ -72,7 +72,7 @@ zstyle ':completion:*' menu no																			# Enable fzf completion menu in
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'	# Preview directory contents when completing 'cd'
 
 # Aliases
-alias ..='cd ..'
-alias c='clear'
-alias cat='bat'
-alias ls="eza --long --all --group-directories-first --icons"
+alias ..='cd ..'																							# Go up one directory
+alias c='clear'																								# Clear the terminal
+alias cat='bat'																								# Use bat instead of cat
+alias ls="eza --long --all --group-directories-first --icons"	# Enhanced ls command
