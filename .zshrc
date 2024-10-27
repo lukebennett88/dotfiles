@@ -32,8 +32,8 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Shell integrations
-eval "$(mise hook-env -s zsh)"			# 'mise' (node version manager)
-eval "$(mise activate zsh)"
+eval "$(mise activate zsh)"					# 'mise' (node version manager)
+eval "$(mise hook-env -s zsh)"
 eval "$(fzf --zsh)"									# 'fzf' keybindings for fuzzy file finding
 eval "$(zoxide init --cmd cd zsh)"	# 'zoxide' (smarter 'cd' command)
 
