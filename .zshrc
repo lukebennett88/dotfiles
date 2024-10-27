@@ -79,6 +79,7 @@ alias cat='bat'																								# A 'cat' clone with syntax highlighting 
 alias gcf='git clean -fxd'																		# Remove untracked files and directories in git
 alias ls="eza"																								# A modern replacement for ls
 alias ll="eza --long --all --group-directories-first --icons"	# List all files with details and icons
+alias tree="eza --tree"																				# List files in a tree-like structure
 
 # Use 'bat' for colourised man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
