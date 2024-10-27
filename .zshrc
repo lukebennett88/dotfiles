@@ -80,3 +80,9 @@ alias gcf='git clean -fxd'																		# Remove untracked files and directo
 
 # Set bat as the MANPAGER for colourised man pages (https://github.com/sharkdp/bat?tab=readme-ov-file#man)
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+# Delete all local branches except the one specified
+gbdm() {
+	local keep_branch="${1:-main}"  # Default to 'main' if no branch is specified
+	git branch | rg -v "^\*?\s*(${keep_branch})\$" | xargs git branch -D
+}
