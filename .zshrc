@@ -66,9 +66,11 @@ bindkey '^[[A' history-search-backward	# Up arrow for history search
 bindkey '^[[B' history-search-forward		# Down arrow for history search
 
 # Completion styling
+autoload -Uz compinit && compinit																		# Ensure compinit is loaded and initialized
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'							# Case-insensitive matching
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"							# Use 'ls' colors for completion list
 zstyle ':completion:*' menu no																			# Enable fzf completion menu instead of zsh's default
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'	# Preview directory contents when completing 'cd'
 
 # Aliases
 alias ..='cd ..'
