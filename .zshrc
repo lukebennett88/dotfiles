@@ -1,14 +1,14 @@
 # .zshrc
 
-# Check if Homebrew is installed, if not, install it
+# Check if Homebrew is installed; if missing, download and install it
 if ! command -v brew &> /dev/null; then
 	echo "Homebrew not found, installing..."
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-# Detect architecture and set Homebrew path
+# Set Homebrew path based on system architecture
 if [[ $(uname -m) == 'arm64' ]]; then
-	# M1/M2 Mac
+	# Apple Silicon Mac
 	eval "$(/opt/homebrew/bin/brew shellenv)"
 else
 	# Intel Mac
@@ -18,71 +18,73 @@ fi
 # Initialise Starship prompt
 eval "$(starship init zsh)"
 
-# Set the directory we want to store Zinit and plugins
+# Directory for Zinit (plugin manager for Zsh) and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
-# Install Zinit if it's not already there
+# Install Zinit if missing
 if [ ! -d "$ZINIT_HOME" ]; then
 	echo "Zinit not found, installing..."
 	mkdir -p "$(dirname "$ZINIT_HOME")"
 	git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 
-# Source/Load Zinit
+# Source Zinit
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Shell integrations
-eval "$(mise hook-env -s zsh)"
-eval "$(mise activate zsh)"					# Activate mise-en-place (node version manager)
-eval "$(fzf --zsh)"									# Enable fzf keybindings
-eval "$(zoxide init --cmd cd zsh)"	# Enable zoxide shell integration (replacing 'cd')
+eval "$(mise hook-env -s zsh)"			# 'mise' (node version manager)
+eval "$(mise activate zsh)"
+eval "$(fzf --zsh)"									# 'fzf' keybindings for fuzzy file finding
+eval "$(zoxide init --cmd cd zsh)"	# 'zoxide' (smarter 'cd' command)
 
 # Zinit plugins
-zinit ice wait lucid; zinit light Aloxaf/fzf-tab																# Replace zsh's default completion selection menu with fzf
+zinit ice wait lucid; zinit light Aloxaf/fzf-tab																# Replace Zsh's default completion selection with 'fzf'
 zinit ice wait lucid; zinit light grigorii-zander/zsh-npm-scripts-autocomplete	# Autocomplete npm scripts
-zinit ice wait lucid; zinit light zsh-users/zsh-autosuggestions									# Autosuggestions based on history
-zinit ice wait lucid; zinit light zsh-users/zsh-completions											# Additional completions
-zinit ice wait lucid; zinit light zsh-users/zsh-syntax-highlighting							# Syntax highlighting
+zinit ice wait lucid; zinit light zsh-users/zsh-autosuggestions									# Suggest commands based on history
+zinit ice wait lucid; zinit light zsh-users/zsh-completions											# Additional autocompletion options
+zinit ice wait lucid; zinit light zsh-users/zsh-syntax-highlighting							# Syntax highlighting for commands
 
 # Zinit snippets
-zinit ice wait lucid; zinit snippet OMZP::git	# adds aliases and functions for git
+zinit ice wait lucid; zinit snippet OMZP::git	# Git aliases and functions
 
 # History settings
-HISTSIZE=5000								# Maximum number of history entries stored in memory (commands per session)
-HISTFILE=~/.zsh_history			# File where history is saved across sessions
-SAVEHIST=$HISTSIZE					# Save the same number of history entries to file as the HISTSIZE
-HISTDUP=erase								# Erase older duplicate commands when a new one is added (keeps only the latest)
-setopt appendhistory				# Append history to the history file, rather than overwriting it, when a shell exits
+HISTSIZE=5000								# Max history entries stored in memory (per session)
+HISTFILE=~/.zsh_history			# History file to save commands between sessions
+SAVEHIST=$HISTSIZE					# Save same number of history entries to history file as in memory
+HISTDUP=erase								# Keep only the latest duplicate
+setopt appendhistory				# Append to history file on exit rather than overwriting
 setopt sharehistory					# Share history across all open terminal sessions
-setopt hist_ignore_space		# Ignore commands that begin with a space (useful for private commands)
-setopt hist_ignore_all_dups	# Remove all older duplicates from the entire history file
-setopt hist_save_no_dups		# Avoid saving duplicates of the same command (only keeps the latest in memory)
-setopt hist_ignore_dups			# Ignore consecutive duplicate commands in the current session
-setopt hist_find_no_dups		# Prevent showing duplicates when searching for a command in history
+setopt hist_ignore_space		# Ignore history entries beginning with a space (for private commands)
+setopt hist_ignore_all_dups	# Remove all duplicates from history file
+setopt hist_save_no_dups		# Prevent duplicate history entries in history file
+setopt hist_ignore_dups			# Ignore consecutive duplicates in current session
+setopt hist_find_no_dups		# Prevent duplicates when searching history
 
 # Keybindings
 bindkey '^[[A' history-search-backward	# Up arrow for history search
 bindkey '^[[B' history-search-forward		# Down arrow for history search
 
+# Initialise 'compinit' for autocompletion
+autoload -Uz compinit && compinit
+
 # Completion styling
-autoload -Uz compinit && compinit																		# Ensure compinit is loaded and initialized
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'							# Case-insensitive matching
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"							# Use 'ls' colors for completion list
-zstyle ':completion:*' menu no																			# Enable fzf completion menu instead of zsh's default
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'	# Preview directory contents when completing 'cd'
+zstyle ':completion:*' menu no																			# Use 'fzf' completion menu
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'	# Show directory contents for 'cd' completion
 
 # Aliases
 alias ..='cd ..'																							# Go up one directory
-alias c='clear'																								# Clear the terminal
-alias cat='bat'																								# Use bat instead of cat
-alias ls="eza --long --all --group-directories-first --icons"	# Enhanced ls command
-alias gcf='git clean -fxd'																		# Remove untracked files and directories
+alias c='clear'																								# Clear the terminal screen
+alias cat='bat'																								# A 'cat' clone with syntax highlighting and git integration
+alias gcf='git clean -fxd'																		# Remove untracked files and directories in git
+alias ls="eza"																								# A modern replacement for ls
+alias ll="eza --long --all --group-directories-first --icons"	# List all files with details and icons
 
-# Set bat as the MANPAGER for colourised man pages (https://github.com/sharkdp/bat?tab=readme-ov-file#man)
+# Use 'bat' for colourised man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
-# Delete all local branches except the one specified
+# Delete all local branches except the specified one (default: main)
 gbdm() {
-	local keep_branch="${1:-main}"  # Default to 'main' if no branch is specified
+	local keep_branch="${1:-main}"
 	git branch | rg -v "^\*?\s*(${keep_branch})\$" | xargs git branch -D
 }
