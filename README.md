@@ -21,13 +21,31 @@ This repository contains the dotfiles for my system.
 
 2. **Install Homebrew and packages**
 
+		Install Homebrew:
+
 		```bash
 		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 		```
 		
+		Then install dependencies from the Brewfile:
+
 		```bash
 		brew bundle --file=~/.dotfiles/Brewfile
 		```
+
+		To update the Brewfile with any new dependencies, run:
+
+		```bash
+		brew bundle dump --force
+		```
+
+		To remove any installed packages not listed in the Brewfile, run:
+
+		```bash
+		brew bundle --force cleanup --file=~/.dotfiles/Brewfile
+		```
+
+		This command will uninstall all packages, casks, or taps not defined in the `Brewfile`, keeping your system aligned with the `Brewfile` contents.
 
 3. **Symlink the dotfiles**
 
