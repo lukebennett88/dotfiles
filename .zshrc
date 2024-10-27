@@ -77,3 +77,6 @@ alias c='clear'																								# Clear the terminal
 alias cat='bat'																								# Use bat instead of cat
 alias ls="eza --long --all --group-directories-first --icons"	# Enhanced ls command
 alias gcf='git clean -fxd'																		# Remove untracked files and directories
+
+# Set bat as the MANPAGER for colourised man pages (https://github.com/sharkdp/bat?tab=readme-ov-file#man)
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
