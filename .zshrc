@@ -74,4 +74,5 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'	# Preview dir
 # Aliases
 alias ..='cd ..'
 alias c='clear'
+alias cat='bat'
 alias ls='ls --color'
