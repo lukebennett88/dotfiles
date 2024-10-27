@@ -15,8 +15,8 @@ else
 	eval "$(/usr/local/bin/brew shellenv)"
 fi
 
-# Initialize oh-my-posh prompt
-eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/config.json)"
+# Initialise Starship prompt
+eval "$(starship init zsh)"
 
 # Set the directory we want to store Zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
