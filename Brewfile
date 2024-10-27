@@ -1,6 +1,7 @@
 tap "homebrew/bundle"
 tap "jandedobbeleer/oh-my-posh"
 brew "bat"
+brew "eza"
 brew "fzf"
 brew "gh"
 brew "git"

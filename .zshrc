@@ -75,4 +75,4 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'	# Preview dir
 alias ..='cd ..'
 alias c='clear'
 alias cat='bat'
-alias ls='ls --color'
+alias ls="eza --long --all --group-directories-first --icons"
