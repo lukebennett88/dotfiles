@@ -21,11 +21,12 @@ This repository contains the dotfiles for my system.
 
 2. **Install Homebrew and packages**
 
-		Navigate to the `.dotfiles` directory and install the packages from the `Brewfile`:
-
 		```bash
-		cd ~/.dotfiles
-		brew bundle install
+		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+		```
+		
+		```bash
+		brew bundle --file=~/.dotfiles/Brewfile
 		```
 
 3. **Symlink the dotfiles**
