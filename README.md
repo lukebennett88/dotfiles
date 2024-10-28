@@ -5,63 +5,64 @@ This repository contains the dotfiles for my system.
 ## Requirements
 
 ### Homebrew
+
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 ## Installation
 
-1. **Clone the repository**
+### Clone the repository
 
-		First, clone this repository into your home directory:
+First, clone this repository into your home directory:
 
-		```bash
-		git clone https://github.com/lukebennett88/dotfiles ~/.dotfiles
-		```
+```bash
+git clone https://github.com/lukebennett88/dotfiles ~/.dotfiles
+```
 
-2. **Install Homebrew and packages**
+### Install Homebrew and packages
 
-		Install Homebrew:
+Install Homebrew:
 
-		```bash
-		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-		```
-		
-		Then install dependencies from the Brewfile:
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
 
-		```bash
-		brew bundle --file=~/.dotfiles/Brewfile
-		```
+Then install dependencies from the Brewfile:
 
-		To update the Brewfile with any new dependencies, run:
+```bash
+brew bundle --file=~/.dotfiles/Brewfile
+```
 
-		```bash
-		brew bundle dump --force
-		```
+To update the Brewfile with any new dependencies, run:
 
-		To remove any installed packages not listed in the Brewfile, run:
+```bash
+brew bundle dump --force
+```
 
-		```bash
-		brew bundle --force cleanup --file=~/.dotfiles/Brewfile
-		```
+To remove any installed packages not listed in the Brewfile, run:
 
-		This command will uninstall all packages, casks, or taps not defined in the `Brewfile`, keeping your system aligned with the `Brewfile` contents.
+```bash
+brew bundle --force cleanup --file=~/.dotfiles/Brewfile
+```
 
-3. **Symlink the dotfiles**
+This command will uninstall all packages, casks, or taps not defined in the `Brewfile`, keeping your system aligned with the `Brewfile` contents.
 
-		Use GNU Stow to create symlinks for the dotfiles. This will place the files in the correct locations:
+### Symlink the dotfiles
 
-		```bash
-		stow .
-		```
+Use GNU Stow to create symlinks for the dotfiles. This will place the files in the correct locations:
 
-4. **Reload the shell**
+```bash
+stow .
+```
 
-		After installation, start a new terminal session or reload the shell:
+### Reload the shell
 
-		```bash
-		exec zsh
-		```
+After installation, start a new terminal session or reload the shell:
+
+```bash
+exec zsh
+```
 
 ## iTerm2
 
