@@ -31,10 +31,10 @@ If any issues occur while running the script, or if you prefer a manual setup, f
 #### Install Brewfile dependencies:
 
 ```bash
-brew bundle --file=~/.dotfiles/Brewfile
+brew bundle --no-lock --file=~/.dotfiles/Brewfile
 ```
 
-#### Symlink the dotfiles\*\* using GNU Stow:
+#### Symlink the dotfiles using GNU Stow:
 
 ```bash
 cd ~/.dotfiles
@@ -46,13 +46,13 @@ stow .
 To update the Brewfile with any new dependencies, run:
 
 ```bash
-brew bundle dump --force
+brew bundle dump --no-lock --force
 ```
 
 To remove any installed packages not listed in the Brewfile, run:
 
 ```bash
-brew bundle --force cleanup --file=~/.dotfiles/Brewfile
+brew bundle cleanup --no-lock --force --file=~/.dotfiles/Brewfile
 ```
 
 This command will uninstall all packages, casks, or taps not defined in the `Brewfile`, keeping your system aligned with the `Brewfile` contents.

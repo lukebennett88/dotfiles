@@ -20,7 +20,7 @@ fi
 
 # Step 3: Install Brewfile dependencies
 echo "Installing Brewfile dependencies..."
-brew bundle --file="$HOME/.dotfiles/Brewfile"
+brew bundle --no-lock --file="$HOME/.dotfiles/Brewfile"
 
 # Step 4: Symlink dotfiles using GNU Stow
 if command -v stow &> /dev/null; then
