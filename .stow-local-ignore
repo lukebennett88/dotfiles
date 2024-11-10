@@ -6,3 +6,4 @@ Brewfile
 com.googlecode.iterm2.plist
 LICENSE.*
 README.*
+setup.sh
