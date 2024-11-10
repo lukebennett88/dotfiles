@@ -1,11 +1,5 @@
 # .zshrc
 
-# Check if Homebrew is installed; if missing, download and install it
-if ! command -v brew &> /dev/null; then
-	echo "Homebrew not found, installing..."
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
-
 # Set Homebrew path based on system architecture
 if [[ $(uname -m) == 'arm64' ]]; then
 	# Apple Silicon Mac
