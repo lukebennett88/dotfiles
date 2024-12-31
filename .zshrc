@@ -79,6 +79,12 @@ alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"	# Tailsca
 # Use ‘bat’ for colourised man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
+# Set XDG directories for consistent file organisation
+export XDG_CACHE_HOME="$HOME/.cache"				# Cache files (~/.cache)
+export XDG_CONFIG_HOME="$HOME/.config"			# Config files (~/.config)
+export XDG_DATA_HOME="$HOME/.local/share"		# Application data (~/.local/share)
+export XDG_STATE_HOME="$HOME/.local/state"	# State files (~/.local/state)
+
 # Delete all local branches except the specified one (default: main)
 gbdm() {
 	local keep_branch="${1:-main}"
