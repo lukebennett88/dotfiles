@@ -1,5 +1,4 @@
 tap "homebrew/bundle"
-tap "jandedobbeleer/oh-my-posh"
 brew "bat"
 brew "curl"
 brew "doggo"
@@ -36,6 +35,7 @@ cask "iina"
 cask "raycast"
 cask "steermouse"
 cask "visual-studio-code"
+cask "zed"
 cask "zoom"
 mas "1Blocker", id: 1365531024
 mas "1Password for Safari", id: 1569813296
