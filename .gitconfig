@@ -4,25 +4,45 @@
   name = Luke Bennett  # Set the global user name for Git commits
 
 [core]
-  editor = code --wait  # Use Visual Studio Code as the default editor for Git (wait for the editor to close before continuing)
+  editor = code --wait                # Use Visual Studio Code as the default editor for Git (wait for the editor to close before continuing)
   excludesfile = ~/.gitignore_global  # Specify a global .gitignore file for ignoring files globally across all repositories
+
+[column]
+  ui = auto  # Enable column output for Git commands that support it
 
 [branch]
   sort = -committerdate  # Sort branches by most recent commit date (descending)
 
+[tag]
+  sort = version:refname  # Sort tags by version number
+
+[diff]
+  algorithm = histogram  # Use the histogram algorithm for diffing
+  colorMoved = plain     # Use plain text for moved lines in diffs
+  mnemonicPrefix = true  # Use mnemonic prefixes for diff hunks
+  renames = true         # Detect renames in diffs
+
 [filter "lfs"]
-  clean = git-lfs clean -- %f  # Use Git LFS to clean files when they are added to the index
-  smudge = git-lfs smudge -- %f  # Use Git LFS to replace the pointer file with the actual file when checking out
+  clean = git-lfs clean -- %f       # Use Git LFS to clean files when they are added to the index
   process = git-lfs filter-process  # Use Git LFS to process files
-  required = true  # Ensure Git LFS is required for repositories that use it
+  required = true                   # Ensure Git LFS is required for repositories that use it
+  smudge = git-lfs smudge -- %f     # Use Git LFS to replace the pointer file with the actual file when checking out
 
 [push]
-  default = simple  # Set the default behavior of 'git push' to 'simple' (push the current branch to the remote branch of the same name)
   autoSetupRemote = true  # Automatically set up the remote tracking branch for new branches
+  default = simple        # Set the default behavior of 'git push' to 'simple' (push the current branch to the remote branch of the same name)
+
+[fetch]
+  prune = true      # Prune remote tracking branches that no longer exist on the remote
 
 [rerere]
-  enabled = true  # Enable 'reuse recorded resolution' for merges (auto-resolve conflicts you've resolved previously)
   autoUpdate = true  # Automatically update the recorded resolution when resolving conflicts
+  enabled = true     # Enable 'reuse recorded resolution' for merges (auto-resolve conflicts you've resolved previously)
+
+[rebase]
+  autoSquash = true  # Automatically use the recorded resolution when squashing commits
+  autoStash = true   # Automatically stash changes before applying the recorded resolution
+  updateRefs = true  # Update the refs when applying the recorded resolution
 
 [init]
   defaultBranch = main  # Set the default branch name to 'main' for new repositories
@@ -33,4 +53,4 @@
 
 # Work-specific configuration
 [includeIf "gitdir:~/Code/work/"]  # Apply the following settings only if the repository is under $HOME/Code/work/
-  path = ~/.gitconfig-work  # Include work-specific Git configuration
+  path = ~/.gitconfig-work         # Include work-specific Git configuration
