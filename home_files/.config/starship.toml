@@ -8,9 +8,10 @@ format = "[$path]($style)"
 read_only = " 󰌾"
 style = "blue"
 truncate_to_repo = true
-truncation_length = 1
+truncation_length = 3
 
 [git_branch]
+symbol = " " #
 format = "[$branch]($style)"
 style = "bright-black"
 
@@ -19,7 +20,7 @@ format = '\([$state( $progress_current/$progress_total)]($style)\) '
 style = "bright-black"
 
 [git_status]
-format = "[[(* ($conflicted )($untracked )($modified )($staged )($renamed )($deleted ))](218)(($ahead_behind )($stashed ))]($style)"
+format = "[[(* ($conflicted )($untracked )($modified )($staged )($renamed )($deleted ))](yellow)(($ahead_behind )($stashed ))]($style)"
 style = "cyan"
 conflicted = "!"
 modified = "~"
@@ -30,6 +31,7 @@ behind = "⇣"
 stashed = "§"
 
 [nodejs]
+symbol = "󰎙 "
 format = "[$symbol($version )]($style)"
 
 [cmd_duration]

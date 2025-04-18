@@ -23,89 +23,109 @@ warn() { printf "${YELLOW}! %s${NC}\n" "$*"; }
 
 # Check if a command exists
 command_exists() {
-  command -v "$1" >/dev/null 2>&1
+	command -v "$1" >/dev/null 2>&1
 }
 
 # Clone the repository
 info "Checking dotfiles repository..."
 if [ ! -d "$HOME/.dotfiles" ]; then
-  info "Cloning dotfiles repository..."
-  git clone https://github.com/lukebennett88/dotfiles ~/.dotfiles
-  success "Dotfiles repository cloned successfully."
+	info "Cloning dotfiles repository..."
+	git clone https://github.com/lukebennett88/dotfiles ~/.dotfiles
+	success "Dotfiles repository cloned successfully."
 else
-  info "Dotfiles repository already exists. Checking for updates..."
-  cd "$HOME/.dotfiles"
-  git pull
-  success "Dotfiles repository updated successfully."
+	info "Dotfiles repository already exists. Checking for updates..."
+	cd "$HOME/.dotfiles"
+	git pull
+	success "Dotfiles repository updated successfully."
 fi
 
 # Install Homebrew if not installed
 info "Checking for Homebrew installation..."
 if ! command_exists brew; then
-  info "Installing Homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	info "Installing Homebrew..."
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-  # Add Homebrew to PATH based on chip architecture
-  if [[ $(uname -m) == "arm64" ]]; then
-    # For Apple Silicon Macs
-    info "Adding Homebrew to PATH for Apple Silicon Mac..."
-    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  else
-    # For Intel Macs
-    info "Adding Homebrew to PATH for Intel Mac..."
-    echo 'eval "$(/usr/local/bin/brew shellenv)"' >> "$HOME/.zprofile"
-    eval "$(/usr/local/bin/brew shellenv)"
-  fi
+	# Add Homebrew to PATH based on chip architecture
+	if [[ $(uname -m) == "arm64" ]]; then
+		# For Apple Silicon Macs
+		info "Adding Homebrew to PATH for Apple Silicon Mac..."
+		echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
+		eval "$(/opt/homebrew/bin/brew shellenv)"
+	else
+		# For Intel Macs
+		info "Adding Homebrew to PATH for Intel Mac..."
+		echo 'eval "$(/usr/local/bin/brew shellenv)"' >> "$HOME/.zprofile"
+		eval "$(/usr/local/bin/brew shellenv)"
+	fi
 
-  success "Homebrew installed and configured successfully."
+	success "Homebrew installed and configured successfully."
 else
-  info "Homebrew is already installed."
-  brew --version
-  info "Updating Homebrew..."
-  brew update
-  success "Homebrew updated successfully."
+	info "Homebrew is already installed."
+	brew --version
+	info "Updating Homebrew..."
+	brew update
+	success "Homebrew updated successfully."
 fi
 
 # Install Brewfile dependencies
 info "Installing Brewfile dependencies..."
 if [ -f "$HOME/.dotfiles/Brewfile" ]; then
-  brew bundle --file="$HOME/.dotfiles/Brewfile"
-  success "Brewfile dependencies installed successfully."
+	brew bundle --file="$HOME/.dotfiles/Brewfile"
+	success "Brewfile dependencies installed successfully."
 else
-  error "Brewfile not found at $HOME/.dotfiles/Brewfile"
-  exit 1
+	error "Brewfile not found at $HOME/.dotfiles/Brewfile"
+	exit 1
 fi
 
 # Symlink dotfiles using GNU Stow
 info "Creating symlinks with Stow..."
 if command_exists stow; then
-  cd "$HOME/.dotfiles" && stow .
-  success "Symlinks created successfully."
+	cd "$HOME/.dotfiles"
+
+	# Stow the 'home_files' package, targeting the parent directory ($HOME)
+	info "Stowing files from home_files/ directory..."
+	# Stow will link the contents of home_files/ into $HOME
+	# Use --adopt to handle existing files by adopting them into the Stow package (use with caution)
+	# stow -v --adopt home_files
+	stow -v home_files
+
+	success "Symlinks created successfully."
 else
-  error "GNU Stow is not installed. Trying to install it now..."
-  brew install stow
-  if command_exists stow; then
-    cd "$HOME/.dotfiles" && stow .
-    success "Stow installed and symlinks created successfully."
-  else
-    error "Failed to install GNU Stow. Please install it manually with 'brew install stow'"
-    exit 1
-  fi
+	error "GNU Stow is not installed. Trying to install it now..."
+	brew install stow
+	if command_exists stow; then
+		cd "$HOME/.dotfiles"
+		info "Stowing files from home_files/ directory..."
+		stow -v home_files # Run stow again after installing
+		success "Stow installed and symlinks created successfully."
+	else
+		error "Failed to install GNU Stow. Please install it manually with 'brew install stow'"
+		exit 1
+	fi
+fi
+
+# Check for terminal and other recommended tools
+info "Checking additional configurations..."
+
+# Check for Ghostty
+if command_exists ghostty; then
+	success "Ghostty terminal is installed"
+else
+	warn "Ghostty terminal is not installed. Consider installing it with 'brew install --cask ghostty'"
 fi
 
 # Check for mise (modern Python/Ruby/Node version manager)
 if command_exists mise; then
-  success "mise is installed ($(mise --version))"
+	success "mise is installed ($(mise --version))"
 else
-  warn "mise is not installed. It's recommended for managing runtime versions."
+	warn "mise is not installed. It's recommended for managing runtime versions."
 fi
 
 # Check for starship prompt
 if command_exists starship; then
-  success "Starship prompt is installed ($(starship --version))"
+	success "Starship prompt is installed ($(starship --version))"
 else
-  warn "Starship prompt is not installed. Consider installing it with 'brew install starship'"
+	warn "Starship prompt is not installed. Consider installing it with 'brew install starship'"
 fi
 
 # Final setup
@@ -116,8 +136,8 @@ info "Please restart your terminal or run 'exec zsh' to apply all changes."
 read -p "Would you like to reload the shell now? (y/n) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  info "Reloading the shell..."
-  exec zsh
+	info "Reloading the shell..."
+	exec zsh
 else
-  info "Please restart your terminal or run 'exec zsh' to apply all changes."
+	info "Please restart your terminal or run 'exec zsh' to apply all changes."
 fi

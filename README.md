@@ -55,7 +55,7 @@ brew bundle
 
 ```bash
 cd ~/.dotfiles
-stow .
+stow home_files
 ```
 
 ### Updating Brewfile

@@ -1,8 +1,0 @@
-.DS_Store
-.git
-.gitignore
-.gitmodules
-Brewfile
-LICENSE.*
-README.*
-setup.sh
