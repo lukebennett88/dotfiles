@@ -1,17 +1,25 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
-format = "($username )($hostname )($directory )($git_branch )($git_state )($git_status )($nodejs )($cmd_duration )$line_break$character"
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_state\
+$git_status\
+$cmd_duration\
+$line_break\
+$python\
+$character"""
 
 [directory]
-format = "[$path]($style)"
 read_only = " 󰌾"
 style = "blue"
 truncate_to_repo = true
 truncation_length = 3
 
 [git_branch]
-symbol = " " #
 format = "[$branch]($style)"
 style = "bright-black"
 
@@ -20,31 +28,21 @@ format = '\([$state( $progress_current/$progress_total)]($style)\) '
 style = "bright-black"
 
 [git_status]
-format = "[[(* ($conflicted )($untracked )($modified )($staged )($renamed )($deleted ))](yellow)(($ahead_behind )($stashed ))]($style)"
+format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
 style = "cyan"
-conflicted = "!"
-modified = "~"
-staged = "+"
-deleted = "×"
-ahead = "⇡"
-behind = "⇣"
-stashed = "§"
-
-[nodejs]
-symbol = "󰎙 "
-format = "[$symbol($version )]($style)"
+conflicted = "​"
+untracked = "​"
+modified = "​"
+staged = "​"
+renamed = "​"
+deleted = "​"
+stashed = "≡"
 
 [cmd_duration]
-format = "[$duration]($style)"
+format = "[$duration]($style) "
 style = "yellow"
-min_time = 5000
 
 [character]
 success_symbol = "[❯](purple)"
 error_symbol = "[❯](red)"
 vimcmd_symbol = "[❮](green)"
-disabled = false
-
-# Secondary prompt symbol for multiline commands
-[line_break]
-disabled = false
