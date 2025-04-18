@@ -1,8 +1,10 @@
 # Dotfiles Setup
 
-This repository contains the dotfiles for my system.
+This repository contains the dotfiles for my macOS system. It includes configurations for terminal, shell, and various development tools.
 
 ## Installation
+
+### Remote Installation
 
 You can run the setup script directly from this repository using `curl`. This will:
 
@@ -10,12 +12,23 @@ You can run the setup script directly from this repository using `curl`. This wi
 - Install Homebrew if it is not already installed
 - Install dependencies from the Brewfile
 - Symlink dotfiles to their correct locations using GNU Stow
-- Set iTerm2 preferences
 
-To execute the script:
+To execute the script remotely:
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/lukebennett88/dotfiles/main/setup.sh)"
+```
+
+### Local Installation
+
+If you've already cloned the repository, you can run the setup script locally:
+
+```bash
+# Make the script executable first
+chmod +x ~/.dotfiles/setup.sh
+
+# Run the script
+~/.dotfiles/setup.sh
 ```
 
 ### Manual Steps
@@ -31,7 +44,11 @@ If any issues occur while running the script, or if you prefer a manual setup, f
 #### Install Brewfile dependencies:
 
 ```bash
-brew bundle --no-lock --file=~/.dotfiles/Brewfile
+# Navigate to the dotfiles directory
+cd ~/.dotfiles
+
+# Install dependencies from the Brewfile
+brew bundle
 ```
 
 #### Symlink the dotfiles using GNU Stow:
@@ -46,30 +63,13 @@ stow .
 To update the Brewfile with any new dependencies, run:
 
 ```bash
-brew bundle dump --no-lock --force
+brew bundle dump --force --file=~/.dotfiles/Brewfile
 ```
 
 To remove any installed packages not listed in the Brewfile, run:
 
 ```bash
-brew bundle cleanup --no-lock --force --file=~/.dotfiles/Brewfile
+brew bundle cleanup --force --file=~/.dotfiles/Brewfile
 ```
 
 This command will uninstall all packages, casks, or taps not defined in the `Brewfile`, keeping your system aligned with the `Brewfile` contents.
-
-### Reload the shell
-
-After installation, start a new terminal session or reload the shell:
-
-```bash
-exec zsh
-```
-
-#### iTerm2
-
-- Open iTerm2 and go to **iTerm2 > Preferences** (or press `⌘ + ,`).
-- Under the **General** tab, in the **Settings** section:
-  - Enable **"Load preferences from a custom folder or URL"**.
-  - Set the path to your dotfiles directory: `~/.dotfiles/com.googlecode.iterm2.plist`.
-  - Set **"Save changes"** to **"automatically"** to keep your settings updated.
-- Restart iTerm2 to load your settings.

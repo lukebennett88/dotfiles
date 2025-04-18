@@ -1,42 +1,123 @@
 #!/bin/bash
 
 # Dotfiles Setup Script
+#
+# This script sets up a new macOS system with dotfiles configuration
+# It handles installation of Homebrew, packages, and symlinking dotfiles
 
-# Step 1: Clone the repository
+# Exit on error
+set -e
+
+# Color definitions
+BLUE='\033[0;34m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # No Color
+
+# Log functions
+info() { printf "${BLUE}➜ %s${NC}\n" "$*"; }
+success() { printf "${GREEN}✓ %s${NC}\n" "$*"; }
+error() { printf "${RED}✗ %s${NC}\n" "$*" >&2; }
+warn() { printf "${YELLOW}! %s${NC}\n" "$*"; }
+
+# Check if a command exists
+command_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+# Clone the repository
+info "Checking dotfiles repository..."
 if [ ! -d "$HOME/.dotfiles" ]; then
-	echo "Cloning dotfiles repository..."
-	git clone https://github.com/lukebennett88/dotfiles ~/.dotfiles
+  info "Cloning dotfiles repository..."
+  git clone https://github.com/lukebennett88/dotfiles ~/.dotfiles
+  success "Dotfiles repository cloned successfully."
 else
-	echo "Dotfiles repository already exists. Skipping clone."
+  info "Dotfiles repository already exists. Checking for updates..."
+  cd "$HOME/.dotfiles"
+  git pull
+  success "Dotfiles repository updated successfully."
 fi
 
-# Step 2: Install Homebrew if not installed
-if ! command -v brew &> /dev/null; then
-	echo "Installing Homebrew..."
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Install Homebrew if not installed
+info "Checking for Homebrew installation..."
+if ! command_exists brew; then
+  info "Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  # Add Homebrew to PATH based on chip architecture
+  if [[ $(uname -m) == "arm64" ]]; then
+    # For Apple Silicon Macs
+    info "Adding Homebrew to PATH for Apple Silicon Mac..."
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  else
+    # For Intel Macs
+    info "Adding Homebrew to PATH for Intel Mac..."
+    echo 'eval "$(/usr/local/bin/brew shellenv)"' >> "$HOME/.zprofile"
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+
+  success "Homebrew installed and configured successfully."
 else
-	echo "Homebrew is already installed. Skipping."
+  info "Homebrew is already installed."
+  brew --version
+  info "Updating Homebrew..."
+  brew update
+  success "Homebrew updated successfully."
 fi
 
-# Step 3: Install Brewfile dependencies
-echo "Installing Brewfile dependencies..."
-brew bundle --no-lock --file="$HOME/.dotfiles/Brewfile"
-
-# Step 4: Symlink dotfiles using GNU Stow
-if command -v stow &> /dev/null; then
-	echo "Creating symlinks with Stow..."
-	cd "$HOME/.dotfiles" && stow .
+# Install Brewfile dependencies
+info "Installing Brewfile dependencies..."
+if [ -f "$HOME/.dotfiles/Brewfile" ]; then
+  brew bundle --file="$HOME/.dotfiles/Brewfile"
+  success "Brewfile dependencies installed successfully."
 else
-	echo "GNU Stow is not installed. Please install it with Homebrew."
+  error "Brewfile not found at $HOME/.dotfiles/Brewfile"
+  exit 1
 fi
 
-# Step 5: Set iTerm2 preferences
-echo "Setting iTerm2 preferences..."
-defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "$HOME/.dotfiles"
-defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
+# Symlink dotfiles using GNU Stow
+info "Creating symlinks with Stow..."
+if command_exists stow; then
+  cd "$HOME/.dotfiles" && stow .
+  success "Symlinks created successfully."
+else
+  error "GNU Stow is not installed. Trying to install it now..."
+  brew install stow
+  if command_exists stow; then
+    cd "$HOME/.dotfiles" && stow .
+    success "Stow installed and symlinks created successfully."
+  else
+    error "Failed to install GNU Stow. Please install it manually with 'brew install stow'"
+    exit 1
+  fi
+fi
 
-# Step 6: Reload the shell
-echo "Reloading the shell..."
-exec zsh
+# Check for mise (modern Python/Ruby/Node version manager)
+if command_exists mise; then
+  success "mise is installed ($(mise --version))"
+else
+  warn "mise is not installed. It's recommended for managing runtime versions."
+fi
 
-echo "Dotfiles setup complete. Please restart your terminal."
+# Check for starship prompt
+if command_exists starship; then
+  success "Starship prompt is installed ($(starship --version))"
+else
+  warn "Starship prompt is not installed. Consider installing it with 'brew install starship'"
+fi
+
+# Final setup
+success "Dotfiles setup complete!"
+info "Please restart your terminal or run 'exec zsh' to apply all changes."
+
+# Offer to reload the shell
+read -p "Would you like to reload the shell now? (y/n) " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  info "Reloading the shell..."
+  exec zsh
+else
+  info "Please restart your terminal or run 'exec zsh' to apply all changes."
+fi
