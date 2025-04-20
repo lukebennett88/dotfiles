@@ -1,4 +1,3 @@
-tap "homebrew/bundle"
 brew "bat"
 brew "curl"
 brew "doggo"
@@ -40,10 +39,13 @@ cask "visual-studio-code"
 # cask "zed"
 # cask "zoom"
 # mas "1Blocker", id: 1365531024
-mas "1Password for Safari", id: 1569813296
+# mas "1Password for Safari", id: 1569813296
 # mas "Affinity Designer 2", id: 1616831348
 # mas "Affinity Photo 2", id: 1616822987
+# mas "Googly Eyes", id: 6743048714
 # mas "Harvest", id: 506189836
+# mas "Keynote", id: 409183694
+# mas "Shareful", id: 1522267256
 # mas "Tailscale", id: 1475387142
 # mas "Things", id: 904280696
 # mas "Unread", id: 1363637349
