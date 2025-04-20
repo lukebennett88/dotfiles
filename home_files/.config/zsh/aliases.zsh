@@ -24,3 +24,8 @@ alias gst='git status'																								# Shorthand for git status
 
 # Application shortcuts
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale" # Tailscale CLI
+
+# Brewfile Aliases
+alias binstall='brew bundle --file=~/.dotfiles/Brewfile'
+alias bdump='brew bundle dump --force --file=~/.dotfiles/Brewfile'
+alias bclean='brew bundle cleanup --force --file=~/.dotfiles/Brewfile'
