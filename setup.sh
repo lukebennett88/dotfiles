@@ -84,10 +84,9 @@ if command_exists stow; then
 
 	# Stow the 'home_files' package, targeting the parent directory ($HOME)
 	info "Stowing files from home_files/ directory..."
-	# Stow will link the contents of home_files/ into $HOME
-	# Use --adopt to handle existing files by adopting them into the Stow package (use with caution)
-	# stow -v --adopt home_files
-	stow -v home_files
+	# Use --restow (-R) to first unstow existing symlinks and then stow again.
+	# This ensures changes (adds/removes/renames) in home_files are correctly reflected.
+	stow -v -R home_files
 
 	success "Symlinks created successfully."
 else
@@ -96,7 +95,8 @@ else
 	if command_exists stow; then
 		cd "$HOME/.dotfiles"
 		info "Stowing files from home_files/ directory..."
-		stow -v home_files # Run stow again after installing
+		# Use --restow (-R) after installing stow as well.
+		stow -v -R home_files # Run stow again after installing
 		success "Stow installed and symlinks created successfully."
 	else
 		error "Failed to install GNU Stow. Please install it manually with 'brew install stow'"

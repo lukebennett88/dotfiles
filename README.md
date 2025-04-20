@@ -47,8 +47,8 @@ If any issues occur while running the script, or if you prefer a manual setup, f
 # Navigate to the dotfiles directory
 cd ~/.dotfiles
 
-# Install dependencies from the Brewfile
-brew bundle
+# Install dependencies from the Brewfile (using the specific file path)
+brew bundle --file=~/.dotfiles/Brewfile
 ```
 
 #### Symlink the dotfiles using GNU Stow:
