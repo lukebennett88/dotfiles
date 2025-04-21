@@ -34,7 +34,7 @@ zinit ice wait lucid; zinit light zsh-users/zsh-completions											# Addition
 zinit ice wait lucid; zinit light zsh-users/zsh-syntax-highlighting							# Syntax highlighting for commands
 
 # Zinit snippets
-zinit ice wait lucid; zinit snippet OMZP::git																		# Git aliases and functions
+zinit ice wait lucid; zinit snippet OMZP::git																		# Git aliases and functions from Oh My Zsh
 
 # History settings
 HISTSIZE=10000										# Max history entries stored in memory (per session)

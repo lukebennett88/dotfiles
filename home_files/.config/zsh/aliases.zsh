@@ -15,13 +15,6 @@ alias ls="eza"																								# A modern replacement for ls
 alias ll="eza --long --all --group-directories-first --icons"	# List all files with details and icons
 alias tree="eza --tree"																				# List files in a tree-like structure
 
-# Git aliases (in addition to those from OMZP::git)
-alias gcf='git clean -fxd'	# Remove untracked files and directories in git
-alias gco='git checkout'		# Shorthand for git checkout
-alias gl='git pull'					# Shorthand for git pull
-alias gp='git push'					# Shorthand for git push
-alias gst='git status'			# Shorthand for git status
-
 # Application shortcuts
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale" # Tailscale CLI
 
