@@ -6,8 +6,8 @@ alias ...='cd ../..'			# Go up two directories
 alias ....='cd ../../..'	# Go up three directories
 
 # Common commands
-alias c='clear'									# Clear the terminal screen
-alias reload='source ~/.zshrc'	# Reload zsh configuration
+alias c='clear'															# Clear the terminal screen
+alias reload='source ~/.config/zsh/.zshrc'	# Reload zsh configuration
 
 # Modern replacements for standard tools
 alias cat='bat'																								# A 'cat' clone with syntax highlighting and git integration
