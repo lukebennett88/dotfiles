@@ -37,27 +37,27 @@ zinit ice wait lucid; zinit light zsh-users/zsh-syntax-highlighting							# Synt
 zinit ice wait lucid; zinit snippet OMZP::git																		# Git aliases and functions
 
 # History settings
-HISTSIZE=10000							# Max history entries stored in memory (per session)
-HISTFILE="$ZDOTDIR/.zsh_history"			# History file to save commands between sessions
-SAVEHIST=$HISTSIZE					# Save same number of history entries to history file as in memory
-HISTDUP=erase								# Keep only the latest duplicate
-setopt appendhistory				# Append to history file on exit rather than overwriting
-setopt sharehistory					# Share history across all open terminal sessions
-setopt hist_ignore_space		# Ignore history entries beginning with a space (for private commands)
-setopt hist_ignore_all_dups	# Remove all duplicates from history file
-setopt hist_save_no_dups		# Prevent duplicate history entries in history file
-setopt hist_ignore_dups			# Ignore consecutive duplicates in current session
-setopt hist_find_no_dups		# Prevent duplicates when searching history
-setopt hist_verify					# Show command with history expansion to user before running it
+HISTSIZE=10000										# Max history entries stored in memory (per session)
+HISTFILE="$ZDOTDIR/.zsh_history"	# History file to save commands between sessions
+SAVEHIST=$HISTSIZE								# Save same number of history entries to history file as in memory
+HISTDUP=erase											# Keep only the latest duplicate
+setopt appendhistory							# Append to history file on exit rather than overwriting
+setopt sharehistory								# Share history across all open terminal sessions
+setopt hist_ignore_space					# Ignore history entries beginning with a space (for private commands)
+setopt hist_ignore_all_dups				# Remove all duplicates from history file
+setopt hist_save_no_dups					# Prevent duplicate history entries in history file
+setopt hist_ignore_dups						# Ignore consecutive duplicates in current session
+setopt hist_find_no_dups					# Prevent duplicates when searching history
+setopt hist_verify								# Show command with history expansion to user before running it
 
 # Additional ZSH options
-setopt auto_cd								# Change to a directory just by typing its name (no 'cd' required)
-setopt extended_glob					# Use extended globbing syntax
-setopt no_case_glob						# Case insensitive globbing
-setopt numeric_glob_sort			# Sort filenames numerically when it makes sense
-setopt auto_pushd							# Make cd push the old directory onto the directory stack
-setopt pushd_ignore_dups			# Don't push multiple copies of the same directory onto the directory stack
-setopt prompt_subst						# Enable parameter expansion, command substitution, and arithmetic expansion in the prompt
+setopt auto_cd						# Change to a directory just by typing its name (no 'cd' required)
+setopt extended_glob			# Use extended globbing syntax
+setopt no_case_glob				# Case insensitive globbing
+setopt numeric_glob_sort	# Sort filenames numerically when it makes sense
+setopt auto_pushd					# Make cd push the old directory onto the directory stack
+setopt pushd_ignore_dups	# Don't push multiple copies of the same directory onto the directory stack
+setopt prompt_subst				# Enable parameter expansion, command substitution, and arithmetic expansion in the prompt
 
 # Keybindings
 bindkey '^[[A' history-search-backward	# Up arrow for history search
