@@ -32,3 +32,21 @@ extract() {
 		echo "'$1' is not a valid file"
 	fi
 }
+
+# Safer git clean with preview and confirmation
+git_clean_safe() {
+	echo "📋 Files that would be deleted:"
+	git clean -fxdn
+
+	echo "\n❔ Do you want to proceed with deletion? [y/N] "
+	read -k 1 confirm
+	echo ""
+
+	if [[ "$confirm" =~ ^[Yy]$ ]]; then
+		echo "🗑️  Deleting files..."
+		git clean -fxd
+		echo "✅ Done!"
+	else
+		echo "❌ Operation cancelled."
+	fi
+}
