@@ -1,6 +1,10 @@
 font-family = JetBrainsMono Nerd Font Mono
 font-size = 15
-shell-integration = zsh
 theme = catppuccin-mocha
 window-padding-x = 15
 window-padding-y = 15
+
+shell-integration = zsh
+
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+quick-terminal-position = bottom
