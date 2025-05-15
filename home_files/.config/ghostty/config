@@ -6,5 +6,5 @@ window-padding-y = 15
 
 shell-integration = zsh
 
-keybind = global:cmd+grave_accent=toggle_quick_terminal
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
 quick-terminal-position = bottom
