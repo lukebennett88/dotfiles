@@ -19,7 +19,9 @@ brew "yazi"
 brew "zoxide"
 brew "zsh"
 cask "1password"
+cask "1password-cli"
 # cask "acorn"
+# cask "blender"
 # cask "docker"
 cask "figma"
 cask "firefox@developer-edition"
@@ -38,15 +40,18 @@ cask "google-chrome"
 cask "raycast"
 # cask "steermouse"
 cask "visual-studio-code"
-# cask "zed"
-# cask "zoom"
+cask "zed"
+cask "zoom"
 # mas "1Blocker", id: 1365531024
 # mas "1Password for Safari", id: 1569813296
 # mas "Affinity Designer 2", id: 1616831348
 # mas "Affinity Photo 2", id: 1616822987
+# mas "Color Picker", id: 1545870783
 # mas "Googly Eyes", id: 6743048714
 # mas "Harvest", id: 506189836
+# mas "Hyperspace", id: 6739505345
 # mas "Keynote", id: 409183694
+# mas "Pixelmator Pro", id: 1289583905
 # mas "Shareful", id: 1522267256
 # mas "Tailscale", id: 1475387142
 # mas "Things", id: 904280696
@@ -54,6 +59,7 @@ cask "visual-studio-code"
 # mas "Velja", id: 1607635845
 # vscode "aaron-bond.better-comments"
 # vscode "albert.tabout"
+# vscode "alexkrechik.cucumberautocomplete"
 # vscode "astro-build.astro-vscode"
 # vscode "bierner.comment-tagged-templates"
 # vscode "biomejs.biome"
