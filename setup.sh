@@ -153,6 +153,17 @@ else
 	warn "Starship prompt is not installed. Consider installing it with 'brew install starship'"
 fi
 
+# Setup 1Password Git configuration (optional)
+if [ -f "$HOME/.dotfiles/scripts/setup-1password.sh" ]; then
+	read -p "Would you like to set up 1Password for Git? (y/n) " -n 1 -r
+	echo
+	if [[ $REPLY =~ ^[Yy]$ ]]; then
+		"$HOME/.dotfiles/scripts/setup-1password.sh"
+	else
+		info "Skipping 1Password setup. Run later with: ~/.dotfiles/scripts/setup-1password.sh"
+	fi
+fi
+
 # Final setup
 success "Dotfiles setup complete!"
 info "Please restart your terminal or run 'exec zsh' to apply all changes."

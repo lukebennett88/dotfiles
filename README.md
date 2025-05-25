@@ -73,3 +73,25 @@ brew bundle cleanup --force --file=~/.dotfiles/Brewfile
 ```
 
 This command will uninstall all packages, casks, or taps not defined in the `Brewfile`, keeping your system aligned with the `Brewfile` contents.
+
+## 1Password Setup
+
+Optional setup for using 1Password as your SSH agent and for Git commit signing.
+
+### Automatic Setup
+
+Run the setup script:
+
+```bash
+~/.dotfiles/scripts/setup-1password.sh
+```
+
+This will:
+- Configure SSH to use 1Password agent
+- Set up Git commit signing (requires 1Password CLI)
+
+### Requirements
+
+- 1Password app with SSH agent enabled
+- For Git signing: 1Password CLI (`brew install --cask 1password/tap/1password-cli`)
+- SSH key stored in 1Password (customize script if item name isn't "GitHub key")

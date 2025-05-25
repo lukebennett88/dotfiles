@@ -54,3 +54,7 @@
 # Work-specific configuration
 [includeIf "gitdir:~/Code/work/"]  # Apply the following settings only if the repository is under $HOME/Code/work/
   path = ~/.gitconfig-work         # Include work-specific Git configuration
+
+# 1Password SSH configuration
+[include]
+  path = ~/.gitconfig-1password-ssh
