@@ -104,6 +104,31 @@ else
 	fi
 fi
 
+# Download and build bat themes
+info "Setting up bat themes..."
+if command_exists bat; then
+	# Create themes directory if it doesn't exist
+	mkdir -p "$HOME/.dotfiles/home_files/.config/bat/themes"
+
+	# Download latest Catppuccin Mocha theme
+	info "Downloading latest Catppuccin Mocha theme..."
+	curl -s -o "$HOME/.dotfiles/home_files/.config/bat/themes/Catppuccin Mocha.tmTheme" \
+		"https://raw.githubusercontent.com/catppuccin/bat/main/themes/Catppuccin%20Mocha.tmTheme"
+
+	if [ $? -eq 0 ]; then
+		success "Catppuccin Mocha theme downloaded successfully."
+	else
+		warn "Failed to download theme, using existing version if available."
+	fi
+
+	# Build bat cache for themes
+	info "Building bat cache..."
+	bat cache --build
+	success "Bat cache built successfully."
+else
+	warn "Bat is not installed yet. Run 'bat cache --build' after installing bat to enable custom themes."
+fi
+
 # Check for terminal and other recommended tools
 info "Checking additional configurations..."
 
