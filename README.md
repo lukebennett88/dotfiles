@@ -87,6 +87,7 @@ Run the setup script:
 ```
 
 This will:
+
 - Configure SSH to use 1Password agent
 - Set up Git commit signing (requires 1Password CLI)
 
