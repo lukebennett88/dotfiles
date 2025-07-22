@@ -1,60 +1,63 @@
 # Shared settings
 
 [user]
-  name = Luke Bennett  # Set the global user name for Git commits
+	name = Luke Bennett	# Global user name for Git commits
 
 [core]
-  editor = code --wait                # Use Visual Studio Code as the default editor for Git (wait for the editor to close before continuing)
-  excludesfile = ~/.gitignore_global  # Specify a global .gitignore file for ignoring files globally across all repositories
+	editor = code --wait									# Use VS Code as default editor, wait for it to close before continuing
+	excludesfile = ~/.gitignore_global		# Global .gitignore file
 
 [column]
-  ui = auto  # Enable column output for Git commands that support it
+	ui = auto	# Show columns in Git output where supported
 
 [branch]
-  sort = -committerdate  # Sort branches by most recent commit date (descending)
+	sort = -committerdate	# Show branches sorted by recent commits (descending)
 
 [tag]
-  sort = version:refname  # Sort tags by version number
+	sort = version:refname	# Sort tags by version number
 
 [diff]
-  algorithm = histogram  # Use the histogram algorithm for diffing
-  colorMoved = plain     # Use plain text for moved lines in diffs
-  mnemonicPrefix = true  # Use mnemonic prefixes for diff hunks
-  renames = true         # Detect renames in diffs
+	algorithm = histogram	# Use histogram diff algorithm (good for code)
+	colorMoved = plain		# Highlight moved lines plainly
+	mnemonicPrefix = true	# Mnemonic diff prefixes (e.g., "i" for index, "w" for working tree)
+	renames = true				# Detect renames in diffs
 
 [filter "lfs"]
-  clean = git-lfs clean -- %f       # Use Git LFS to clean files when they are added to the index
-  process = git-lfs filter-process  # Use Git LFS to process files
-  required = true                   # Ensure Git LFS is required for repositories that use it
-  smudge = git-lfs smudge -- %f     # Use Git LFS to replace the pointer file with the actual file when checking out
+	clean = git-lfs clean -- %f				# Use Git LFS to clean files when they are added to the index
+	process = git-lfs filter-process	# Use Git LFS to process files
+	required = true										# Ensure Git LFS is required for repositories that use it
+	smudge = git-lfs smudge -- %f			# Use Git LFS to replace the pointer file with the actual file when checking out
 
 [push]
-  autoSetupRemote = true  # Automatically set up the remote tracking branch for new branches
-  default = simple        # Set the default behavior of 'git push' to 'simple' (push the current branch to the remote branch of the same name)
+	autoSetupRemote = true	# Automatically track upstream when pushing new branches
+	default = simple				# Push current branch to remote branch of the same name
+
+[pull]
+	ff = only	# Only allow fast-forward pulls (fail otherwise)
 
 [fetch]
-  prune = true      # Prune remote tracking branches that no longer exist on the remote
+	prune = true	# Automatically remove deleted remote branches
 
 [rerere]
-  autoUpdate = true  # Automatically update the recorded resolution when resolving conflicts
-  enabled = true     # Enable 'reuse recorded resolution' for merges (auto-resolve conflicts you've resolved previously)
+	enabled = true		# Enable reusing recorded resolutions for merge conflicts
+	autoUpdate = true	# Auto-stage resolved conflicts when applying rerere
 
 [rebase]
-  autoSquash = true  # Automatically use the recorded resolution when squashing commits
-  autoStash = true   # Automatically stash changes before applying the recorded resolution
-  updateRefs = true  # Update the refs when applying the recorded resolution
+	autoSquash = true	# Auto reorder fixup/squash commits during rebase
+	autoStash = true	# Stash local changes before rebase and reapply after
+	updateRefs = true	# Automatically update branch refs after successful rebase
 
 [init]
-  defaultBranch = main  # Set the default branch name to 'main' for new repositories
+	defaultBranch = main	# Default branch name when creating new repos
 
-# Personal configuration (acts as the default)
+# Personal overrides
 [include]
-  path = ~/.gitconfig-personal  # Include personal Git configuration
+	path = ~/.gitconfig-personal
 
-# Work-specific configuration
-[includeIf "gitdir:~/Code/work/"]  # Apply the following settings only if the repository is under $HOME/Code/work/
-  path = ~/.gitconfig-work         # Include work-specific Git configuration
+# Work-specific settings
+[includeIf "gitdir:~/Code/work/"]
+	path = ~/.gitconfig-work
 
-# 1Password SSH configuration
+# 1Password SSH config
 [include]
-  path = ~/.gitconfig-1password-ssh
+	path = ~/.gitconfig-1password-ssh
