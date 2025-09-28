@@ -63,7 +63,7 @@ stow home_files
 To update the Brewfile with any new dependencies, run:
 
 ```bash
-brew bundle dump --force --file=~/.dotfiles/Brewfile
+brew bundle dump --force --no-vscode --file=~/.dotfiles/Brewfile
 ```
 
 To remove any installed packages not listed in the Brewfile, run:
@@ -73,6 +73,8 @@ brew bundle cleanup --force --file=~/.dotfiles/Brewfile
 ```
 
 This command will uninstall all packages, casks, or taps not defined in the `Brewfile`, keeping your system aligned with the `Brewfile` contents.
+
+**Note:** VS Code extensions are excluded from the Brewfile (via `--no-vscode` flag) and should be managed through VS Code's built-in Settings Sync feature instead.
 
 ## 1Password Setup
 
