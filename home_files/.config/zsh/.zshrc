@@ -26,6 +26,11 @@ eval "$(mise hook-env -s zsh)"
 eval "$(fzf --zsh)"									# 'fzf' keybindings for fuzzy file finding
 eval "$(zoxide init --cmd cd zsh)"	# 'zoxide' (smarter 'cd' command)
 
+# pnpm completion
+if command -v pnpm >/dev/null 2>&1; then
+	eval "$(pnpm completion zsh)"
+fi
+
 # Zinit plugins
 zinit ice wait lucid; zinit light Aloxaf/fzf-tab																# Replace Zsh's default completion selection with 'fzf'
 zinit ice wait lucid; zinit light grigorii-zander/zsh-npm-scripts-autocomplete	# Autocomplete npm scripts
