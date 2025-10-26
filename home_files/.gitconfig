@@ -4,7 +4,7 @@
 	name = Luke Bennett	# Global user name for Git commits
 
 [core]
-	editor = code --wait									# Use VS Code as default editor, wait for it to close before continuing
+	editor = cursor --wait									# Use Cursor as default editor, wait for it to close before continuing
 	excludesfile = ~/.gitignore_global		# Global .gitignore file
 
 [column]
