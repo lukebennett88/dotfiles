@@ -9,5 +9,8 @@
       "Shell(ls)"
     ],
     "deny": []
+  },
+  "network": {
+    "useHttp1ForAgent": false
   }
 }

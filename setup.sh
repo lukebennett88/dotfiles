@@ -26,6 +26,47 @@ command_exists() {
 	command -v "$1" >/dev/null 2>&1
 }
 
+# Backup a conflicting file before stowing
+backup_conflict_file() {
+	local target="$1"
+	if [ -e "$target" ] && [ ! -L "$target" ]; then
+		local rel="${target#$HOME/}"
+		local timestamp
+		timestamp=$(date +%Y%m%d%H%M%S)
+		local backup_dir="$HOME/.dotfiles/.stow-backups/$timestamp/$(dirname "$rel")"
+		local backup_path="$backup_dir/$(basename "$target")"
+
+		mkdir -p "$backup_dir"
+		warn "Found existing file at $target (not a symlink). Backing it up to $backup_path"
+		mv "$target" "$backup_path"
+	fi
+}
+
+# Remove macOS metadata files that can block stow
+cleanup_stow_metadata() {
+	if [ -d "$HOME/.config" ]; then
+		find "$HOME/.config" -name '.DS_Store' -delete 2>/dev/null || true
+	fi
+}
+
+# Run stow with a bit of preflight cleanup
+perform_stow() {
+	cd "$HOME/.dotfiles"
+
+	info "Cleaning up metadata before stowing..."
+	cleanup_stow_metadata
+
+	# Known conflict: Cursor may have created its own config before dotfiles were stowed
+	backup_conflict_file "$HOME/.config/cursor/cli-config.json"
+
+	info "Stowing files from home_files/ directory..."
+	# Use --restow (-R) to first unstow existing symlinks and then stow again.
+	# Ignore macOS metadata files.
+	stow -v -R --ignore='\\.DS_Store' home_files
+
+	success "Symlinks created successfully."
+}
+
 # Clone the repository
 info "Checking dotfiles repository..."
 if [ ! -d "$HOME/.dotfiles" ]; then
@@ -80,24 +121,12 @@ fi
 # Symlink dotfiles using GNU Stow
 info "Creating symlinks with Stow..."
 if command_exists stow; then
-	cd "$HOME/.dotfiles"
-
-	# Stow the 'home_files' package, targeting the parent directory ($HOME)
-	info "Stowing files from home_files/ directory..."
-	# Use --restow (-R) to first unstow existing symlinks and then stow again.
-	# This ensures changes (adds/removes/renames) in home_files are correctly reflected.
-	stow -v -R home_files
-
-	success "Symlinks created successfully."
+	perform_stow
 else
 	error "GNU Stow is not installed. Trying to install it now..."
 	brew install stow
 	if command_exists stow; then
-		cd "$HOME/.dotfiles"
-		info "Stowing files from home_files/ directory..."
-		# Use --restow (-R) after installing stow as well.
-		stow -v -R home_files # Run stow again after installing
-		success "Stow installed and symlinks created successfully."
+		perform_stow
 	else
 		error "Failed to install GNU Stow. Please install it manually with 'brew install stow'"
 		exit 1

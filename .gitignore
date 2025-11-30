@@ -1,4 +1,5 @@
 .DS_Store
+.stow-backups/
 Brewfile.lock.json
 home_files/.config/raycast
 home_files/.config/zsh/.zcompcache
