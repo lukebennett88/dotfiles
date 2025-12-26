@@ -18,3 +18,6 @@ export XDG_STATE_HOME="$HOME/.local/state"	# State files (~/.local/state)
 
 # Add local bin directory to PATH
 export PATH="$HOME/.local/bin:$PATH"
+
+# Set GOBIN to install Go binaries to local bin
+export GOBIN="$HOME/.local/bin"
