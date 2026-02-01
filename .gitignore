@@ -2,6 +2,7 @@
 .stow-backups/
 Brewfile.lock.json
 home_files/.config/raycast
+home_files/.config/zed
 home_files/.config/zsh/.zcompcache
 home_files/.config/zsh/.zcompdump*
 home_files/.config/zsh/.zsh_history
