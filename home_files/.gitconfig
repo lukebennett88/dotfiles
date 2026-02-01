@@ -34,6 +34,7 @@
 
 [pull]
 	ff = only	# Only allow fast-forward pulls (fail otherwise)
+	rebase = true
 
 [fetch]
 	prune = true	# Automatically remove deleted remote branches
