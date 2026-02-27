@@ -1,9 +1,9 @@
 .DS_Store
 .stow-backups/
 Brewfile.lock.json
-home_files/.config/raycast
-home_files/.config/zed
-home_files/.config/zsh/.zcompcache
-home_files/.config/zsh/.zcompdump*
-home_files/.config/zsh/.zsh_history
-home_files/.config/zsh/.zsh_sessions
+
+# Zsh generates these at runtime -- never commit them
+zsh/.config/zsh/.zcompdump*
+zsh/.config/zsh/.zcompcache/
+zsh/.config/zsh/.zsh_history
+zsh/.config/zsh/.zsh_sessions/
