@@ -6,6 +6,10 @@ gbdm() {
 	git branch | rg -v "^\*?\s*(${keep_branch})\$" | xargs git branch -D
 }
 
+rmmerged() {
+	git branch --merged | grep -Ev "(\*|master|main)" | xargs -n 1 git branch -d && git remote prune origin
+}
+
 # Create a new directory and change to it
 mkcd() {
 	mkdir -p "$1" && cd "$1"

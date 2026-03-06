@@ -13,6 +13,9 @@
 [branch]
 	sort = -committerdate	# Show branches sorted by recent commits (descending)
 
+[branch "main"]
+	rebase = true 	# Rebase main branch when pulling to keep history clean
+
 [tag]
 	sort = version:refname	# Sort tags by version number
 
