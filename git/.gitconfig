@@ -6,6 +6,7 @@
 [core]
 	editor = code --wait									# Use VS Code as default editor, wait for it to close before continuing
 	excludesfile = ~/.gitignore_global		# Global .gitignore file
+	pager = less -FRX
 
 [column]
 	ui = auto	# Show columns in Git output where supported
