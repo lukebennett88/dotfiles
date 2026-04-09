@@ -66,5 +66,9 @@
 # 1Password SSH config
 [include]
 	path = ~/.gitconfig-1password-ssh
+
 [advice]
 	skippedCherryPicks = false
+
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers

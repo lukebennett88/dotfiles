@@ -37,6 +37,9 @@ if command -v op >/dev/null 2>&1 && op account list >/dev/null 2>&1; then
 
 [gpg "ssh"]
   program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+
+[commit]
+  gpgsign = true
 EOF
         echo "✓ Created ~/.gitconfig-1password-ssh"
     else
