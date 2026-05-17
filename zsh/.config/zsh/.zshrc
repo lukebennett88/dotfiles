@@ -93,6 +93,10 @@ fi
 # Use 'bat' for colourised man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
+# Disable GitHub CLI telemetry
+export GH_TELEMETRY=false
+export DO_NOT_TRACK=true
+
 # Load local configuration if it exists
 if [[ -f "$ZDOTDIR/.zshrc.local" ]]; then
 	source "$ZDOTDIR/.zshrc.local"
