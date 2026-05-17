@@ -55,7 +55,14 @@ brew bundle --file=~/.dotfiles/Brewfile
 
 ```bash
 cd ~/.dotfiles
-stow home_files
+stow home
+```
+
+Or stow all packages at once (matching what `setup.sh` does):
+
+```bash
+cd ~/.dotfiles
+stow -R -t ~ bat eza ghostty git home lazygit mise skills starship zsh
 ```
 
 ### Updating Brewfile
@@ -75,6 +82,20 @@ brew bundle cleanup --force --file=~/.dotfiles/Brewfile
 This command will uninstall all packages, casks, or taps not defined in the `Brewfile`, keeping your system aligned with the `Brewfile` contents.
 
 **Note:** VS Code extensions are excluded from the Brewfile (via `--no-vscode` flag) and should be managed through VS Code's built-in Settings Sync feature instead.
+
+## Skills
+
+AI agent skills are managed via the [skills CLI](https://skills.sh/) and tracked in `skills/.local/state/skills/.skill-lock.json`. On a fresh install, `setup.sh` will automatically:
+
+1. Install `mise` runtimes (node)
+2. Enable `corepack` for `pnpm` (no global package manager installs)
+3. Restore all skills from the lockfile using `pnpm dlx`
+
+If you need to restore skills manually (e.g. after adding new ones on another machine):
+
+```bash
+pnpm dlx skills experimental_install
+```
 
 ## 1Password Setup
 

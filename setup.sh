@@ -140,6 +140,42 @@ if command_exists bat; then
 	success "Bat cache built."
 fi
 
+# -- Skills ------------------------------------------------------------------
+
+info "Setting up skills..."
+if command_exists mise; then
+	# Activate mise so runtimes (node, pnpm) are available in this script
+	eval "$(mise activate bash)"
+	eval "$(mise hook-env)"
+
+	info "Installing mise runtimes..."
+	mise install
+
+	if command_exists node; then
+		# Prepare pnpm via corepack (no global package manager install needed)
+		if ! command_exists pnpm; then
+			info "Preparing pnpm via corepack..."
+			corepack prepare pnpm@latest --activate
+			eval "$(mise hook-env)"
+		fi
+
+		if command_exists pnpm; then
+			info "Restoring skills from lockfile..."
+			pnpm dlx skills experimental_install || warn "Skills restoration may have failed or was skipped."
+			success "Skills setup complete."
+		else
+			warn "pnpm not available via corepack. Skipping skills setup."
+			warn "Run this later after opening a new shell: pnpm dlx skills experimental_install"
+		fi
+	else
+		warn "Node.js not available via mise. Skipping skills setup."
+		warn "Run this later after opening a new shell: pnpm dlx skills experimental_install"
+	fi
+else
+	warn "mise not found. Skipping skills setup."
+	warn "Run this later after opening a new shell: pnpm dlx skills experimental_install"
+fi
+
 # -- 1Password (optional) -----------------------------------------------------
 
 if [ -f "$DOTFILES/scripts/setup-1password.sh" ]; then
