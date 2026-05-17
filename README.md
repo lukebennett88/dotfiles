@@ -1,121 +1,106 @@
-# Dotfiles Setup
+# Dotfiles
 
-This repository contains the dotfiles for my macOS system. It includes configurations for terminal, shell, and various development tools.
+macOS dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
-## Installation
+## Quick start
 
-### Remote Installation
-
-You can run the setup script directly from this repository using `curl`. This will:
-
-- Clone the dotfiles repository if not already cloned
-- Install Homebrew if it is not already installed
-- Install dependencies from the Brewfile
-- Symlink dotfiles to their correct locations using GNU Stow
-
-To execute the script remotely:
+Fresh Mac:
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/lukebennett88/dotfiles/main/setup.sh)"
 ```
 
-### Local Installation
-
-If you've already cloned the repository, you can run the setup script locally:
+Repo already cloned:
 
 ```bash
-# Make the script executable first
-chmod +x ~/.dotfiles/setup.sh
-
-# Run the script
 ~/.dotfiles/setup.sh
 ```
 
-### Manual Steps
+## How it works
 
-If any issues occur while running the script, or if you prefer a manual setup, follow these steps:
+`setup.sh` runs each phase as a separate script under `scripts/`. Any script can be re-run on its own.
 
-#### Install Homebrew (if not already installed):
+| Phase | Script                    | What it does                                              |
+| ----- | ------------------------- | --------------------------------------------------------- |
+| 1     | `install-homebrew.sh`     | Install or update Homebrew                                |
+| 2     | `install-brewfile.sh`     | Required Brewfile, then `fzf` picker for optional entries |
+| 3     | `install-stow.sh`         | Symlink configs from top-level dirs into `$HOME`          |
+| 4     | `install-bat-themes.sh`   | Download Catppuccin theme, rebuild bat cache              |
+| 5     | `install-skills.sh`       | mise + pnpm via corepack, restore Claude skills           |
+| 6     | `setup-macos-defaults.sh` | macOS defaults (optional)                                 |
+| 7     | `setup-1password.sh`      | SSH agent + Git signing via 1Password (optional)          |
+
+Failed runs preserve `setup-YYYYMMDD-HHMMSS.log` in the repo root and print the path. Successful runs clean up.
+
+## Brewfile
+
+`Brewfile` holds the required tools. `Brewfile.optional` holds situational items shown in an `fzf` checklist picker.
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+~/.dotfiles/scripts/install-brewfile.sh         # required + picker
+~/.dotfiles/scripts/install-brewfile.sh --all   # required + all optional
+~/.dotfiles/scripts/install-brewfile.sh --none  # required only
 ```
 
-#### Install Brewfile dependencies:
+`Brewfile.optional` format:
 
-```bash
-# Navigate to the dotfiles directory
-cd ~/.dotfiles
-
-# Install dependencies from the Brewfile (using the specific file path)
-brew bundle --file=~/.dotfiles/Brewfile
+```text
+brew:doggo                       # modern DNS client
+cask:figma                       # design tool
+tap:anomalyco/tap
+mas:1Password for Safari=1569813296
 ```
 
-#### Symlink the dotfiles using GNU Stow:
+Selections feed into `brew bundle --file=-`.
+
+### Maintenance
 
 ```bash
-cd ~/.dotfiles
-stow home
-```
-
-Or stow all packages at once (matching what `setup.sh` does):
-
-```bash
-cd ~/.dotfiles
-stow -R -t ~ bat eza ghostty git home lazygit mise skills starship zsh
-```
-
-### Updating Brewfile
-
-To update the Brewfile with any new dependencies, run:
-
-```bash
+# Refresh the required Brewfile from installed state
 brew bundle dump --force --no-vscode --file=~/.dotfiles/Brewfile
-```
 
-To remove any installed packages not listed in the Brewfile, run:
-
-```bash
+# Remove anything not in Brewfile (ignores Brewfile.optional)
 brew bundle cleanup --force --file=~/.dotfiles/Brewfile
 ```
 
-This command will uninstall all packages, casks, or taps not defined in the `Brewfile`, keeping your system aligned with the `Brewfile` contents.
+> **Warning:** `brew bundle cleanup` only consults the required `Brewfile`.
+> Anything you picked from `Brewfile.optional` will be uninstalled. Move it
+> into the main `Brewfile` first if you want it preserved.
 
-**Note:** VS Code extensions are excluded from the Brewfile (via `--no-vscode` flag) and should be managed through VS Code's built-in Settings Sync feature instead.
+VS Code extensions sync through Settings Sync, hence `--no-vscode`.
+
+## Adding a new config
+
+Each top-level dir is a stow package, except `scripts`, `.git`, and `.stow-backups`:
+
+```bash
+mkdir -p newtool/.config/newtool
+echo "my config" > newtool/.config/newtool/config.toml
+stow -t ~ newtool
+git add newtool && git commit -m "Add newtool config"
+```
 
 ## Skills
 
-AI agent skills are managed via the [skills CLI](https://skills.sh/) and tracked in `skills/.local/state/skills/.skill-lock.json`. On a fresh install, `setup.sh` will automatically:
+`install-skills.sh` activates mise, prepares pnpm via corepack, and runs `pnpm dlx skills experimental_install`. Skills are tracked in `skills/.local/state/skills/.skill-lock.json`.
 
-1. Install `mise` runtimes (node)
-2. Enable `corepack` for `pnpm` (no global package manager installs)
-3. Restore all skills from the lockfile using `pnpm dlx`
+## 1Password
 
-If you need to restore skills manually (e.g. after adding new ones on another machine):
+`setup-1password.sh` (optional) writes:
 
-```bash
-pnpm dlx skills experimental_install
-```
+- 1Password SSH agent socket into `~/.ssh/config`
+- `~/.gitconfig-1password-ssh` for SSH-based commit signing (sourced by the main gitconfig)
 
-## 1Password Setup
+Requires the 1Password app with SSH agent enabled, the 1Password CLI, and an SSH key item named `GitHub key`.
 
-Optional setup for using 1Password as your SSH agent and for Git commit signing.
+## macOS defaults
 
-### Automatic Setup
+`setup-macos-defaults.sh` (optional) sets:
 
-Run the setup script:
-
-```bash
-~/.dotfiles/scripts/setup-1password.sh
-```
-
-This will:
-
-- Configure SSH to use 1Password agent
-- Set up Git commit signing (requires 1Password CLI)
-
-### Requirements
-
-- 1Password app with SSH agent enabled
-- For Git signing: 1Password CLI (`brew install --cask 1password/tap/1password-cli`)
-- SSH key stored in 1Password (customize script if item name isn't "GitHub key")
+- Finder: show extensions, path bar, status bar; column view; folders on top; search current folder; new windows open at `$HOME`; no `.DS_Store` on network/USB
+- Dock: `tilesize=37`, hide recent apps
+- Keyboard: fast key repeat (2/15), no press-and-hold accent picker, full keyboard access in dialogs
+- Appearance: auto-switch Light/Dark
+- Launch Services: no "Are you sure?" prompt for downloaded apps
+- Screenshots saved to `~/Downloads`
+- App Store: daily update check, auto-install

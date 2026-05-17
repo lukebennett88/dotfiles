@@ -1,0 +1,79 @@
+# Optional Homebrew entries — picked interactively by
+# scripts/install-brewfile.sh. Format (one per line):
+#
+#   brew:<name>              # description
+#   cask:<name>              # description
+#   tap:<owner>/<repo>       # description
+#   mas:<App Name>=<id>      # description
+#
+# Lines starting with # and blank lines are ignored.
+
+# -- Taps ---------------------------------------------------------------------
+tap:anomalyco/tap                            # source for opencode
+
+# -- CLI tools ----------------------------------------------------------------
+brew:agent-browser                           # browser automation CLI for AI agents
+brew:anomalyco/tap/opencode                  # AI coding agent for the terminal
+brew:doggo                                   # modern DNS client
+brew:ffmpeg                                  # media processing
+brew:imagemagick                             # image processing
+brew:lazydocker                              # docker TUI
+brew:lazygit                                 # git TUI
+brew:mole                                    # Deep clean and optimize your Mac
+brew:neovim                                  # editor
+
+# -- Fonts --------------------------------------------------------------------
+cask:font-blex-mono-nerd-font                # IBM Plex Mono (Nerd Font)
+cask:font-geist-mono-nerd-font               # Geist Mono (Nerd Font)
+cask:font-im-writing-nerd-font               # iA Writer Mono (Nerd Font)
+cask:font-monaspice-nerd-font                # Monaspace (Nerd Font)
+cask:font-sauce-code-pro-nerd-font           # Source Code Pro (Nerd Font)
+
+# -- Apps ---------------------------------------------------------------------
+cask:acorn                                   # image editor
+cask:bettermouse                             # mouse customisation
+cask:blender                                 # 3D creation suite
+cask:choosy                                  # browser chooser
+cask:cmux                                    # Ghostty-based terminal for AI coding agents
+cask:codex                                   # OpenAI coding agent (CLI)
+cask:docker-desktop                          # container app platform
+cask:figma                                   # design tool
+cask:firefox@developer-edition               # browser
+cask:handbrake-app                           # video transcoding
+cask:httpie-desktop                          # API client
+cask:iina                                    # video player
+cask:imageoptim                              # image compression
+cask:jordanbaird-ice                         # menu bar manager
+cask:notion-calendar                         # calendar
+cask:notion                                  # notes & docs
+cask:onyx                                    # macOS maintenance
+cask:opencode-desktop                        # AI coding agent (desktop)
+cask:podman-desktop                          # GUI for podman containers
+cask:setapp                                  # subscription app bundle
+cask:tower                                   # git GUI
+cask:zed                                     # editor
+
+# -- Setapp-replaceable (only install if not using Setapp) --------------------
+cask:bartender                               # menu bar icon organiser — also in Setapp
+cask:cleanmymac                              # disk cleaner — also in Setapp
+cask:cleanshot                               # screen capture — also in Setapp
+cask:pixelsnap                               # screen ruler — also in Setapp
+cask:tableplus                               # database GUI — also in Setapp
+
+# -- Mac App Store ------------------------------------------------------------
+mas:1Blocker=1365531024                      # Safari content blocker
+mas:1Password for Safari=1569813296          # 1Password Safari extension
+mas:Affinity Designer 2=1616831348           # vector design
+mas:Affinity Photo 2=1616822987              # photo editor
+mas:Color Picker=1545870783                  # colour picker
+mas:Fantastical - Calendar=975937182         # calendar
+mas:Googly Eyes=6743048714                   # googly eyes that follow your cursor
+mas:Harvest=506189836                        # time tracking
+mas:Keynote=409183694                        # presentations
+mas:Lungo=1263070803                         # prevent sleep
+mas:Pages=409201541                          # word processor
+mas:Pixelmator Pro=1289583905                # image editor
+mas:Shareful=1522267256                      # macOS share menu enhancer
+mas:Tailscale=1475387142                     # mesh VPN
+mas:Things=904280696                         # task manager
+mas:Unread=1363637349                        # RSS reader

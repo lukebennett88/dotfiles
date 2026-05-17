@@ -1,34 +1,40 @@
 #!/bin/bash
+set -euo pipefail
 
-# Minimal 1Password Git setup
-# Adds SSH config and Git signing configuration
+source "$(cd "$(dirname "$0")" && pwd)/lib.sh"
 
-set -e
+info "Setting up 1Password for Git..."
 
-echo "🔐 Setting up 1Password for Git..."
+# -- 1. SSH config for 1Password agent ----------------------------------------
 
-# 1. Setup SSH config for 1Password agent
 SSH_CONFIG="$HOME/.ssh/config"
 mkdir -p "$HOME/.ssh"
 
-if ! grep -q "IdentityAgent.*1password" "$SSH_CONFIG" 2>/dev/null; then
-    echo "" >> "$SSH_CONFIG"
-    echo "# 1Password SSH Agent" >> "$SSH_CONFIG"
-    echo "Host *" >> "$SSH_CONFIG"
-    echo '  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"' >> "$SSH_CONFIG"
-    chmod 600 "$SSH_CONFIG"
-    echo "✓ Added 1Password SSH agent to ~/.ssh/config"
+if grep -q "IdentityAgent.*1password" "$SSH_CONFIG" 2>/dev/null; then
+	success "SSH config already has 1Password configuration."
 else
-    echo "✓ SSH config already has 1Password configuration"
+	{
+		echo ""
+		echo "# 1Password SSH Agent"
+		echo "Host *"
+		echo '  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"'
+	} >> "$SSH_CONFIG"
+	chmod 600 "$SSH_CONFIG"
+	success "Added 1Password SSH agent to ~/.ssh/config."
 fi
 
-# 2. Setup Git signing (requires 1Password CLI and signed in)
-if command -v op >/dev/null 2>&1 && op account list >/dev/null 2>&1; then
-    echo "📝 Setting up Git commit signing..."
+# -- 2. Git signing (requires 1Password CLI and signed in) --------------------
 
-    # Get SSH public key from 1Password (customize "GitHub key" to your item name)
-    if SSH_KEY=$(op item get "GitHub key" --fields "public key" 2>/dev/null); then
-        cat > "$HOME/.gitconfig-1password-ssh" << EOF
+if ! command_exists op || ! op account list >/dev/null 2>&1; then
+	warn "1Password CLI not available or not signed in. Git signing setup skipped."
+	warn "Install with: brew install --cask 1password/tap/1password-cli"
+	exit 0
+fi
+
+info "Setting up Git commit signing..."
+
+if SSH_KEY=$(op item get "GitHub key" --fields "public key" 2>/dev/null); then
+	cat > "$HOME/.gitconfig-1password-ssh" <<EOF
 [user]
   signingkey = $SSH_KEY
 
@@ -41,17 +47,12 @@ if command -v op >/dev/null 2>&1 && op account list >/dev/null 2>&1; then
 [commit]
   gpgsign = true
 EOF
-        echo "✓ Created ~/.gitconfig-1password-ssh"
-    else
-        echo "⚠️  Could not get SSH key from 1Password. Git signing setup skipped."
-        echo "   Make sure you have an SSH key item named 'GitHub key' in 1Password"
-    fi
+	success "Created ~/.gitconfig-1password-ssh."
 else
-    echo "⚠️  1Password CLI not available or not signed in. Git signing setup skipped."
-    echo "   Install with: brew install --cask 1password/tap/1password-cli"
+	warn "Could not get SSH key from 1Password. Git signing setup skipped."
+	warn "Make sure you have an SSH key item named 'GitHub key' in 1Password."
 fi
 
-echo "✅ 1Password setup complete!"
-echo ""
-echo "Test SSH authentication: ssh -T git@github.com"
-echo "Test Git signing: git commit --allow-empty -m 'test' -S"
+success "1Password setup complete."
+info "Test SSH authentication: ssh -T git@github.com"
+info "Test Git signing: git commit --allow-empty -m 'test' -S"

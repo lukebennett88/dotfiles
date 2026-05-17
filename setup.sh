@@ -1,9 +1,10 @@
 #!/bin/bash
+set -euo pipefail
 
-# Dotfiles Setup Script
+# Dotfiles orchestrator.
 #
-# This script sets up a new macOS system with dotfiles configuration.
-# It handles installation of Homebrew, packages, and symlinking dotfiles.
+# Runs each phase as a separate script under scripts/. Any phase can be
+# re-run in isolation (e.g. ./scripts/install-brewfile.sh).
 #
 # Packages are auto-discovered: any top-level directory (except scripts, .git,
 # .stow-backups) is treated as a stow package. To add config for a new tool:
@@ -13,182 +14,97 @@
 #   stow -t ~ newtool
 #   # then commit
 
-set -e
-
-# -- Logging -------------------------------------------------------------------
-
-BLUE='\033[0;34m'
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-YELLOW='\033[0;33m'
-NC='\033[0m'
-
-info()    { printf "${BLUE}➜ %s${NC}\n" "$*"; }
-success() { printf "${GREEN}✓ %s${NC}\n" "$*"; }
-error()   { printf "${RED}✗ %s${NC}\n" "$*" >&2; }
-warn()    { printf "${YELLOW}! %s${NC}\n" "$*"; }
-
-command_exists() { command -v "$1" >/dev/null 2>&1; }
-
 DOTFILES="$HOME/.dotfiles"
 
-# -- Detect stow packages automatically ---------------------------------------
-# Any top-level directory that isn't hidden, "scripts", or other non-package
-# dirs is treated as a stow package.
-
-stow_packages() {
-	local packages=()
-	for dir in "$DOTFILES"/*/; do
-		dir="${dir%/}"
-		name="$(basename "$dir")"
-		case "$name" in
-			scripts|.git|.stow-backups) continue ;;
-		esac
-		packages+=("$name")
-	done
-	echo "${packages[@]}"
-}
-
-# -- Stow ----------------------------------------------------------------------
-
-perform_stow() {
-	cd "$DOTFILES"
-
-	# Clean up .DS_Store files that can block stow
-	find "$HOME/.config" -name '.DS_Store' -delete 2>/dev/null || true
-
-	local packages
-	packages=$(stow_packages)
-	info "Stowing packages: $packages"
-	# shellcheck disable=SC2086
-	stow -v -R --ignore='\.DS_Store' -t "$HOME" $packages
-
-	success "Symlinks created successfully."
-}
+# Make sure prompts work even if invoked through a pipe.
+[ -t 0 ] || exec < /dev/tty
 
 # -- Clone / update repo -------------------------------------------------------
+# Must run BEFORE we open a log file under $DOTFILES — git refuses to clone
+# into a non-empty directory.
 
-info "Checking dotfiles repository..."
-if [ ! -d "$DOTFILES" ]; then
-	info "Cloning dotfiles repository..."
+if [ ! -d "$DOTFILES/.git" ]; then
+	echo "➜ Cloning dotfiles repository..."
 	git clone https://github.com/lukebennett88/dotfiles "$DOTFILES"
-	success "Dotfiles repository cloned."
 else
-	info "Dotfiles repository already exists. Pulling latest..."
+	echo "➜ Dotfiles repository exists. Pulling latest..."
 	git -C "$DOTFILES" pull
-	success "Dotfiles repository updated."
 fi
 
-# -- Homebrew ------------------------------------------------------------------
+# -- Logging -------------------------------------------------------------------
+# Stream output to a timestamped log file. On clean exit the log is deleted —
+# successful runs leave no trace. On failure the log is kept and its path is
+# echoed so you have something to grep.
 
-info "Checking for Homebrew..."
-if ! command_exists brew; then
-	info "Installing Homebrew..."
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+LOG_FILE="$DOTFILES/setup-$(date +%Y%m%d-%H%M%S).log"
+exec > >(tee -a "$LOG_FILE") 2>&1
 
-	# Make brew available for the rest of this script. The dotfiles-managed
-	# .zprofile handles this for future shells, so we don't write to any file.
-	if [[ $(uname -m) == "arm64" ]]; then
-		eval "$(/opt/homebrew/bin/brew shellenv)"
+cleanup_log() {
+	local code=$?
+	# Let tee finish draining before we touch the file.
+	sync 2>/dev/null || true
+	if [ "$code" -eq 0 ]; then
+		rm -f "$LOG_FILE"
 	else
-		eval "$(/usr/local/bin/brew shellenv)"
+		echo "" >&2
+		echo "✗ Setup failed (exit $code)." >&2
+		echo "  Log preserved at: $LOG_FILE" >&2
 	fi
+}
+trap cleanup_log EXIT
 
-	success "Homebrew installed."
+# Load shared helpers now that the repo is on disk.
+# shellcheck source=scripts/lib.sh
+source "$DOTFILES/scripts/lib.sh"
+
+# -- Phases --------------------------------------------------------------------
+
+step "Phase 1 — Homebrew"
+"$DOTFILES/scripts/install-homebrew.sh"
+
+step "Phase 2 — Brewfile (required + optional picker)"
+"$DOTFILES/scripts/install-brewfile.sh"
+
+step "Phase 3 — Stow symlinks"
+"$DOTFILES/scripts/install-stow.sh"
+
+step "Phase 4 — Bat themes"
+"$DOTFILES/scripts/install-bat-themes.sh"
+
+step "Phase 5 — Skills"
+"$DOTFILES/scripts/install-skills.sh"
+
+step "Phase 6 — macOS defaults (optional)"
+read -p "Apply macOS defaults (Dock, Finder, keyboard)? (y/n) " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+	"$DOTFILES/scripts/setup-macos-defaults.sh"
 else
-	info "Homebrew is already installed."
-	info "Updating Homebrew..."
-	brew update
-	success "Homebrew updated."
+	info "Skipping macOS defaults. Run later: ~/.dotfiles/scripts/setup-macos-defaults.sh"
 fi
 
-# -- Brewfile ------------------------------------------------------------------
-
-info "Installing Brewfile dependencies..."
-if [ -f "$DOTFILES/Brewfile" ]; then
-	brew bundle --file="$DOTFILES/Brewfile"
-	success "Brewfile dependencies installed."
+step "Phase 7 — 1Password for Git (optional)"
+read -p "Set up 1Password for Git? (y/n) " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+	"$DOTFILES/scripts/setup-1password.sh"
 else
-	error "Brewfile not found at $DOTFILES/Brewfile"
-	exit 1
-fi
-
-# -- Stow packages -------------------------------------------------------------
-
-info "Creating symlinks with Stow..."
-if command_exists stow; then
-	perform_stow
-else
-	error "GNU Stow is not installed. It should have been installed via Brewfile."
-	exit 1
-fi
-
-# -- Bat themes ----------------------------------------------------------------
-
-if command_exists bat; then
-	info "Setting up bat themes..."
-	mkdir -p "$DOTFILES/bat/.config/bat/themes"
-
-	if curl -sf -o "$DOTFILES/bat/.config/bat/themes/Catppuccin Mocha.tmTheme" \
-		"https://raw.githubusercontent.com/catppuccin/bat/main/themes/Catppuccin%20Mocha.tmTheme"; then
-		success "Catppuccin Mocha theme downloaded."
-	else
-		warn "Failed to download bat theme, using existing version if available."
-	fi
-
-	bat cache --build
-	success "Bat cache built."
-fi
-
-# -- Skills ------------------------------------------------------------------
-
-info "Setting up skills..."
-if command_exists mise; then
-	# Activate mise so runtimes (node, pnpm) are available in this script
-	eval "$(mise activate bash)"
-	eval "$(mise hook-env)"
-
-	info "Installing mise runtimes..."
-	mise install
-
-	if command_exists node; then
-		# Prepare pnpm via corepack (no global package manager install needed)
-		if ! command_exists pnpm; then
-			info "Preparing pnpm via corepack..."
-			corepack prepare pnpm@latest --activate
-			eval "$(mise hook-env)"
-		fi
-
-		if command_exists pnpm; then
-			info "Restoring skills from lockfile..."
-			pnpm dlx skills experimental_install || warn "Skills restoration may have failed or was skipped."
-			success "Skills setup complete."
-		else
-			warn "pnpm not available via corepack. Skipping skills setup."
-			warn "Run this later after opening a new shell: pnpm dlx skills experimental_install"
-		fi
-	else
-		warn "Node.js not available via mise. Skipping skills setup."
-		warn "Run this later after opening a new shell: pnpm dlx skills experimental_install"
-	fi
-else
-	warn "mise not found. Skipping skills setup."
-	warn "Run this later after opening a new shell: pnpm dlx skills experimental_install"
-fi
-
-# -- 1Password (optional) -----------------------------------------------------
-
-if [ -f "$DOTFILES/scripts/setup-1password.sh" ]; then
-	read -p "Would you like to set up 1Password for Git? (y/n) " -n 1 -r
-	echo
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		"$DOTFILES/scripts/setup-1password.sh"
-	else
-		info "Skipping 1Password setup. Run later with: ~/.dotfiles/scripts/setup-1password.sh"
-	fi
+	info "Skipping 1Password setup. Run later: ~/.dotfiles/scripts/setup-1password.sh"
 fi
 
 # -- Done ----------------------------------------------------------------------
 
-success "Dotfiles setup complete!"
-info "Please restart your terminal or run 'exec zsh' to apply all changes."
+step "Done"
+success "Dotfiles setup complete."
+echo ""
+info "Manual steps remaining:"
+cat <<'EOF'
+  1. Sign into the Mac App Store (mas requires it for paid apps)
+  2. Sign into 1Password app and enable CLI integration
+       Settings → Developer → "Integrate with 1Password CLI"
+  3. Sign into Setapp (for apps you chose to install from there)
+  4. Sign into Slack, Zoom, Obsidian, Raycast, etc.
+  5. Import GPG keys from backup if applicable
+  6. Configure Tailscale: tailscale up
+  7. Open a new terminal (or `exec zsh`) to load the shell config
+EOF
