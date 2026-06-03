@@ -1,0 +1,11 @@
+# Machine-specific zsh config.
+#
+# Copy this to .zshrc.local (which is gitignored) and add anything that should
+# only run on this machine — PATH tweaks, per-machine tool inits, work-only
+# aliases, secrets sourcing, etc. It's sourced at the end of .zshrc if present.
+#
+#   cp ~/.config/zsh/.zshrc.local.example ~/.config/zsh/.zshrc.local
+#
+# Keep tool inits guarded so a missing tool can't break the shell:
+#
+#   command -v <tool> >/dev/null && eval "$(<tool> init zsh)"

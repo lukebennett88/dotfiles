@@ -5,4 +5,5 @@ setup-*.log
 zsh/.config/zsh/.zcompcache/
 zsh/.config/zsh/.zcompdump*
 zsh/.config/zsh/.zsh_history
+zsh/.config/zsh/.zshrc.local
 zsh/.config/zsh/.zsh_sessions/

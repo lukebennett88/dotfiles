@@ -1,4 +1,5 @@
 *~
 .DS_Store
 .mise.local.toml
+.worktrees/
 **/.claude/settings.local.json

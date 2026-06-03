@@ -34,7 +34,7 @@ Failed runs preserve `setup-YYYYMMDD-HHMMSS.log` in the repo root and print the 
 
 ## Brewfile
 
-`Brewfile` holds the required tools. `Brewfile.optional` holds situational items shown in an `fzf` checklist picker.
+`Brewfile` is bootstrap-only — just the CLI tools needed for a working shell and to run the installer itself (`git`, `stow`, `mise`, `zsh`, `starship`, `fzf`, `zoxide`, `eza`, `bat`, `ripgrep`, `fd`, `mas`). Everything else — GUI apps, fonts, and situational CLIs — lives in `Brewfile.optional` and is chosen from an `fzf` checklist picker.
 
 ```bash
 ~/.dotfiles/scripts/install-brewfile.sh         # required + picker
@@ -56,16 +56,19 @@ Selections feed into `brew bundle --file=-`.
 ### Maintenance
 
 ```bash
-# Refresh the required Brewfile from installed state
-brew bundle dump --force --no-vscode --file=~/.dotfiles/Brewfile
-
 # Remove anything not in Brewfile (ignores Brewfile.optional)
 brew bundle cleanup --force --file=~/.dotfiles/Brewfile
 ```
 
-> **Warning:** `brew bundle cleanup` only consults the required `Brewfile`.
-> Anything you picked from `Brewfile.optional` will be uninstalled. Move it
-> into the main `Brewfile` first if you want it preserved.
+> **Warning:** avoid `brew bundle dump --file=~/.dotfiles/Brewfile` — it rewrites the
+> file from _everything_ currently installed, which re-bloats the bootstrap-only
+> `Brewfile` and undoes the split. Add new situational items to `Brewfile.optional` by
+> hand instead.
+
+> **Warning:** `brew bundle cleanup` only consults the required `Brewfile`, so it
+> will uninstall everything you picked from `Brewfile.optional`. Treat it as a reset
+> back to the bootstrap baseline — re-run the picker (or `install-brewfile.sh --all`)
+> to restore your optional packages afterwards.
 
 VS Code extensions sync through Settings Sync, hence `--no-vscode`.
 
@@ -78,6 +81,16 @@ mkdir -p newtool/.config/newtool
 echo "my config" > newtool/.config/newtool/config.toml
 stow -t ~ newtool
 git add newtool && git commit -m "Add newtool config"
+```
+
+## Machine-specific config
+
+Anything that should only run on one machine (per-machine tool inits, PATH tweaks,
+work-only aliases) goes in `~/.config/zsh/.zshrc.local`, which `.zshrc` sources last and
+`.gitignore` keeps untracked. Bootstrap it from the tracked template:
+
+```bash
+cp ~/.config/zsh/.zshrc.local.example ~/.config/zsh/.zshrc.local
 ```
 
 ## Skills

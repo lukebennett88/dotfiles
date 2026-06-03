@@ -1,34 +1,17 @@
-# Required tools — always installed.
-# Optional / situational items live in Brewfile.optional and are picked
-# interactively via `scripts/install-brewfile.sh`.
+# Bootstrap-only — just the CLI tools needed for a working shell and to run
+# the installer itself. Everything else (GUI apps, fonts, situational CLIs)
+# lives in Brewfile.optional and is picked interactively via
+# `scripts/install-brewfile.sh`.
 
 brew "bat"
-brew "curl"
 brew "eza"
 brew "fd"
 brew "fzf"
-brew "gh"
 brew "git"
 brew "mas"
 brew "mise"
 brew "ripgrep"
 brew "starship"
 brew "stow"
-brew "trash"
-brew "wget"
-brew "yazi"
 brew "zoxide"
 brew "zsh"
-
-cask "1password"
-cask "1password-cli"
-cask "font-jetbrains-mono-nerd-font"
-cask "ghostty"
-cask "github"
-cask "google-chrome"
-cask "obsidian"
-cask "raycast"
-cask "slack"
-cask "steermouse"
-cask "visual-studio-code"
-cask "zoom"

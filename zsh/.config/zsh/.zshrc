@@ -5,7 +5,7 @@
 # Load zsh configurations
 
 # Initialise Starship prompt
-eval "$(starship init zsh)"
+command -v starship >/dev/null && eval "$(starship init zsh)"
 
 # Directory for Zinit (plugin manager for Zsh) and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -21,10 +21,12 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Shell integrations
-eval "$(mise activate zsh)"					# 'mise' (runtime version manager)
-eval "$(mise hook-env -s zsh)"
-eval "$(fzf --zsh)"									# 'fzf' keybindings for fuzzy file finding
-eval "$(zoxide init --cmd cd zsh)"	# 'zoxide' (smarter 'cd' command)
+if command -v mise >/dev/null; then		# 'mise' (runtime version manager)
+	eval "$(mise activate zsh)"
+	eval "$(mise hook-env -s zsh)"
+fi
+command -v fzf    >/dev/null && eval "$(fzf --zsh)"									# 'fzf' keybindings for fuzzy file finding
+command -v zoxide >/dev/null && eval "$(zoxide init --cmd cd zsh)"	# 'zoxide' (smarter 'cd' command)
 
 # pnpm completion
 if command -v pnpm >/dev/null 2>&1; then
@@ -97,7 +99,8 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export GH_TELEMETRY=false
 export DO_NOT_TRACK=true
 
-# Load local configuration if it exists
+# Load machine-specific configuration if it exists (gitignored).
+# See .zshrc.local.example for the pattern.
 if [[ -f "$ZDOTDIR/.zshrc.local" ]]; then
 	source "$ZDOTDIR/.zshrc.local"
 fi
