@@ -36,6 +36,28 @@ step() { printf "\n${BLUE}▸ %s${NC}\n" "$*"; }
 
 command_exists() { command -v "$1" >/dev/null 2>&1; }
 
+# Ask a yes/no question. Returns 0 for yes, 1 for no. Enter accepts the
+# default (yes), so a fresh-machine run can breeze through by hitting return.
+#   confirm "Apply macOS defaults?" && do_thing
+confirm() {
+	local reply
+	read -r -p "$(printf "${YELLOW}? %s [Y/n] ${NC}" "$1")" reply
+	[[ -z "$reply" || "$reply" =~ ^[Yy] ]]
+}
+
+# Run an optional phase behind a confirm prompt. On decline, print the skip
+# hint (if given) so the user knows how to run it later.
+#   optional_phase "Stow symlinks?" "$DOTFILES/scripts/install-stow.sh" \
+#       "Skipping stow. Run later: ~/.dotfiles/scripts/install-stow.sh"
+optional_phase() {
+	local prompt="$1" script="$2" hint="${3:-}"
+	if confirm "$prompt"; then
+		"$script"
+	elif [ -n "$hint" ]; then
+		info "$hint"
+	fi
+}
+
 # Resolve the dotfiles root from any script that lives under scripts/
 dotfiles_root() {
 	local script_dir

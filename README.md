@@ -20,15 +20,17 @@ Repo already cloned:
 
 `setup.sh` runs each phase as a separate script under `scripts/`. Any script can be re-run on its own.
 
-| Phase | Script                    | What it does                                              |
-| ----- | ------------------------- | --------------------------------------------------------- |
-| 1     | `install-homebrew.sh`     | Install or update Homebrew                                |
-| 2     | `install-brewfile.sh`     | Required Brewfile, then `fzf` picker for optional entries |
-| 3     | `install-stow.sh`         | Symlink configs from top-level dirs into `$HOME`          |
-| 4     | `install-bat-themes.sh`   | Download Catppuccin theme, rebuild bat cache              |
-| 5     | `install-skills.sh`       | mise + pnpm via corepack, restore Claude skills           |
-| 6     | `setup-macos-defaults.sh` | macOS defaults (optional)                                 |
-| 7     | `setup-1password.sh`      | SSH agent + Git signing via 1Password (optional)          |
+Only Phase 1 (Homebrew) is mandatory — everything else depends on the tools it installs. Every other phase prompts before running: hit Enter to accept (the default) or answer `n` to skip. That makes re-running setup for a single phase painless — just skip past the ones you don't need.
+
+| Phase | Script                    | Optional? | What it does                                              |
+| ----- | ------------------------- | --------- | --------------------------------------------------------- |
+| 1     | `install-homebrew.sh`     | no        | Install or update Homebrew                                |
+| 2     | `install-brewfile.sh`     | yes       | Required Brewfile, then `fzf` picker for optional entries |
+| 3     | `install-stow.sh`         | yes       | Symlink configs from top-level dirs into `$HOME`          |
+| 4     | `install-bat-themes.sh`   | yes       | Download Catppuccin theme, rebuild bat cache              |
+| 5     | `install-skills.sh`       | yes       | mise + pnpm via corepack, restore Claude skills           |
+| 6     | `setup-macos-defaults.sh` | yes       | macOS defaults (Dock, Finder, keyboard)                   |
+| 7     | `setup-1password.sh`      | yes       | SSH agent + Git signing via 1Password                     |
 
 Failed runs preserve `setup-YYYYMMDD-HHMMSS.log` in the repo root and print the path. Successful runs clean up.
 
