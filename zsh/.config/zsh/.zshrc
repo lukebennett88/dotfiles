@@ -104,3 +104,8 @@ export DO_NOT_TRACK=true
 if [[ -f "$ZDOTDIR/.zshrc.local" ]]; then
 	source "$ZDOTDIR/.zshrc.local"
 fi
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"
+
+. "$HOME/.local/share/../bin/env"
