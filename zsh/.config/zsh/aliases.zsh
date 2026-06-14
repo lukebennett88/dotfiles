@@ -14,6 +14,7 @@ alias cat='bat'																								# A 'cat' clone with syntax highlighting 
 alias ls="eza"																								# A modern replacement for ls
 alias ll="eza --long --all --group-directories-first --icons"	# List all files with details and icons
 alias tree="eza --tree"																				# List files in a tree-like structure
+alias cc="claude --dangerously-skip-permissions"							# Run Claude Code in yolo mode
 
 # Application shortcuts
 # Tailscale CLI — only define when the app is actually installed
