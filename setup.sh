@@ -86,12 +86,17 @@ optional_phase "Restore Claude skills?" \
 	"$DOTFILES/scripts/install-skills.sh" \
 	"Skipping skills. Run later: ~/.dotfiles/scripts/install-skills.sh"
 
-step "Phase 6 — macOS defaults"
+step "Phase 6 — rtk (token proxy for AI agents)"
+optional_phase "Set up rtk for Claude Code and Codex?" \
+	"$DOTFILES/scripts/install-rtk.sh" \
+	"Skipping rtk. Run later: ~/.dotfiles/scripts/install-rtk.sh"
+
+step "Phase 7 — macOS defaults"
 optional_phase "Apply macOS defaults (Dock, Finder, keyboard)?" \
 	"$DOTFILES/scripts/setup-macos-defaults.sh" \
 	"Skipping macOS defaults. Run later: ~/.dotfiles/scripts/setup-macos-defaults.sh"
 
-step "Phase 7 — 1Password for Git"
+step "Phase 8 — 1Password for Git"
 optional_phase "Set up 1Password for Git?" \
 	"$DOTFILES/scripts/setup-1password.sh" \
 	"Skipping 1Password setup. Run later: ~/.dotfiles/scripts/setup-1password.sh"

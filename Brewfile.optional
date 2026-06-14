@@ -23,6 +23,7 @@ brew:lazydocker                              # docker TUI
 brew:lazygit                                 # git TUI
 brew:mole                                    # Deep clean and optimize your Mac
 brew:neovim                                  # editor
+brew:rtk                                      # token-optimizing CLI proxy for AI agents
 brew:trash                                   # move files to the Trash instead of rm
 brew:wget                                    # file downloader
 brew:yazi                                    # terminal file manager
