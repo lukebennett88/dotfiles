@@ -1,17 +1,24 @@
-# Bootstrap-only — just the CLI tools needed for a working shell and to run
-# the installer itself. Everything else (GUI apps, fonts, situational CLIs)
-# lives in Brewfile.optional and is picked interactively via
-# `scripts/install-brewfile.sh`.
-
+# Essentials for the shell and dotfiles bootstrap.
 brew "bat"
 brew "eza"
 brew "fd"
 brew "fzf"
+brew "fzf-tab"
+brew "gh"
 brew "git"
+brew "just"
 brew "mas"
 brew "mise"
 brew "ripgrep"
+brew "shellcheck"
 brew "starship"
 brew "stow"
+brew "worktrunk"
 brew "zoxide"
 brew "zsh"
+brew "zsh-autosuggestions"
+brew "zsh-completions"
+brew "zsh-syntax-highlighting"
+cask "font-jetbrains-mono-nerd-font"
+cask "ghostty"
+cask "visual-studio-code"

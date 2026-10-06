@@ -1,0 +1,82 @@
+# Full additional inventory. This intentionally includes alternatives.
+tap "anomalyco/tap"
+
+# CLI tools
+brew "agent-browser"
+brew "anomalyco/tap/opencode"
+brew "curl"
+brew "doggo"
+brew "ffmpeg"
+brew "imagemagick"
+brew "lazydocker"
+brew "lazygit"
+brew "mole"
+brew "neovim"
+brew "trash"
+brew "wget"
+brew "yazi"
+
+# Fonts
+cask "font-blex-mono-nerd-font"
+cask "font-geist-mono-nerd-font"
+cask "font-im-writing-nerd-font"
+cask "font-monaspice-nerd-font"
+cask "font-sauce-code-pro-nerd-font"
+
+# Apps
+cask "1password"
+cask "1password-cli"
+cask "acorn"
+cask "bettermouse"
+cask "blender"
+cask "choosy"
+cask "cmux"
+cask "codex"
+cask "docker-desktop"
+cask "figma"
+cask "firefox@developer-edition"
+cask "github"
+cask "google-chrome"
+cask "handbrake-app"
+cask "httpie-desktop"
+cask "iina"
+cask "imageoptim"
+cask "jordanbaird-ice"
+cask "notion-calendar"
+cask "notion"
+cask "obsidian"
+cask "onyx"
+cask "opencode-desktop"
+cask "podman-desktop"
+cask "raycast"
+cask "setapp"
+cask "slack"
+cask "steermouse"
+cask "tower"
+cask "zed"
+cask "zoom"
+
+# Setapp alternatives
+cask "bartender"
+cask "cleanmymac"
+cask "cleanshot"
+cask "pixelsnap"
+cask "tableplus"
+
+# Mac App Store
+mas "1Blocker", id: 1365531024
+mas "1Password for Safari", id: 1569813296
+mas "Affinity Designer 2", id: 1616831348
+mas "Affinity Photo 2", id: 1616822987
+mas "Color Picker", id: 1545870783
+mas "Fantastical - Calendar", id: 975937182
+mas "Googly Eyes", id: 6743048714
+mas "Harvest", id: 506189836
+mas "Keynote", id: 409183694
+mas "Lungo", id: 1263070803
+mas "Pages", id: 409201541
+mas "Pixelmator Pro", id: 1289583905
+mas "Shareful", id: 1522267256
+mas "Tailscale", id: 1475387142
+mas "Things", id: 904280696
+mas "Unread", id: 1363637349

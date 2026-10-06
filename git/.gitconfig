@@ -14,9 +14,6 @@
 [branch]
 	sort = -committerdate	# Show branches sorted by recent commits (descending)
 
-[branch "main"]
-	rebase = true 	# Rebase main branch when pulling to keep history clean
-
 [tag]
 	sort = version:refname	# Sort tags by version number
 
@@ -37,8 +34,7 @@
 	default = simple				# Push current branch to remote branch of the same name
 
 [pull]
-	ff = only	# Only allow fast-forward pulls (fail otherwise)
-	rebase = true
+	rebase = true	# Rebase local commits onto upstream; never create merge commits on pull
 
 [fetch]
 	prune = true	# Automatically remove deleted remote branches
@@ -72,3 +68,10 @@
 
 [gpg "ssh"]
 	allowedSignersFile = ~/.ssh/allowed_signers
+
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential

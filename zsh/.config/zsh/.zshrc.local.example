@@ -2,10 +2,18 @@
 #
 # Copy this to .zshrc.local (which is gitignored) and add anything that should
 # only run on this machine — PATH tweaks, per-machine tool inits, work-only
-# aliases, secrets sourcing, etc. It's sourced at the end of .zshrc if present.
+# aliases, secrets sourcing, etc. It loads after shared settings and before
+# the final syntax-highlighting plugin.
 #
 #   cp ~/.config/zsh/.zshrc.local.example ~/.config/zsh/.zshrc.local
 #
 # Keep tool inits guarded so a missing tool can't break the shell:
 #
 #   command -v <tool> >/dev/null && eval "$(<tool> init zsh)"
+#
+# For machine-specific tools, guard optional files and paths:
+#
+#   [[ -f "$HOME/.vite-plus/env" ]] && source "$HOME/.vite-plus/env"
+#   [[ -d "$HOME/.opencode/bin" ]] && export PATH="$HOME/.opencode/bin:$PATH"
+#
+# mise manages Node.js and pnpm; do not add a separate PNPM_HOME here.

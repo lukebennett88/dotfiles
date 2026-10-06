@@ -1,13 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
-source "$(cd "$(dirname "$0")" && pwd)/lib.sh"
+if [[ "$(uname -s)" != Darwin ]]; then
+	printf 'macOS defaults can only be applied on macOS.\n' >&2
+	exit 1
+fi
 
-info "Applying macOS defaults..."
-
-# -- General / launch services -----------------------------------------------
-# Skip the "Are you sure you want to open this app?" prompt for downloaded binaries
-defaults write com.apple.LaunchServices LSQuarantine -bool false
+printf 'Applying macOS defaults...\n'
 
 # -- Keyboard ----------------------------------------------------------------
 defaults write NSGlobalDomain KeyRepeat -int 2
@@ -51,14 +50,9 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 mkdir -p "$HOME/Downloads"
 defaults write com.apple.screencapture location -string "$HOME/Downloads"
 
-# -- Software updates --------------------------------------------------------
-# Daily check + auto-install for App Store apps
-defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
-defaults write com.apple.commerce AutoUpdate -bool true
-
 # -- Apply -------------------------------------------------------------------
 killall Dock 2>/dev/null || true
 killall Finder 2>/dev/null || true
 killall SystemUIServer 2>/dev/null || true
 
-success "macOS defaults applied."
+printf 'macOS defaults applied.\n'

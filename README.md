@@ -1,145 +1,84 @@
 # Dotfiles
 
-macOS dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/).
+macOS on Apple Silicon, managed with [GNU Stow](https://www.gnu.org/software/stow/) and [just](https://github.com/casey/just).
 
-## Quick start
-
-Fresh Mac:
+## Bootstrap
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/lukebennett88/dotfiles/main/setup.sh)"
-```
-
-Repo already cloned:
-
-```bash
+git clone https://github.com/lukebennett88/dotfiles ~/.dotfiles
 ~/.dotfiles/setup.sh
 ```
 
-## How it works
+`setup.sh` installs Homebrew and `just` if needed, then runs the default bootstrap: essentials, Stow links, mise Node.js and pnpm, and the bat theme cache. It does not pull Git changes, install optional apps, or change macOS preferences.
 
-`setup.sh` runs each phase as a separate script under `scripts/`. Any script can be re-run on its own.
+## Commands
 
-Only Phase 1 (Homebrew) is mandatory — everything else depends on the tools it installs. Every other phase prompts before running: hit Enter to accept (the default) or answer `n` to skip. That makes re-running setup for a single phase painless — just skip past the ones you don't need.
-
-| Phase | Script                    | Optional? | What it does                                              |
-| ----- | ------------------------- | --------- | --------------------------------------------------------- |
-| 1     | `install-homebrew.sh`     | no        | Install or update Homebrew                                |
-| 2     | `install-brewfile.sh`     | yes       | Required Brewfile, then `fzf` picker for optional entries |
-| 3     | `install-stow.sh`         | yes       | Symlink configs from top-level dirs into `$HOME`          |
-| 4     | `install-bat-themes.sh`   | yes       | Download Catppuccin theme, rebuild bat cache              |
-| 5     | `install-skills.sh`       | yes       | mise + pnpm via corepack, restore Claude skills           |
-| 6     | `install-rtk.sh`          | yes       | Link rtk filters, wire rtk into Claude Code + Codex        |
-| 7     | `setup-macos-defaults.sh` | yes       | macOS defaults (Dock, Finder, keyboard)                   |
-| 8     | `setup-1password.sh`      | yes       | SSH agent + Git signing via 1Password                     |
-
-Failed runs preserve `setup-YYYYMMDD-HHMMSS.log` in the repo root and print the path. Successful runs clean up.
-
-## Brewfile
-
-`Brewfile` is bootstrap-only — just the CLI tools needed for a working shell and to run the installer itself (`git`, `stow`, `mise`, `zsh`, `starship`, `fzf`, `zoxide`, `eza`, `bat`, `ripgrep`, `fd`, `mas`). Everything else — GUI apps, fonts, and situational CLIs — lives in `Brewfile.optional` and is chosen from an `fzf` checklist picker.
+From the repository directory:
 
 ```bash
-~/.dotfiles/scripts/install-brewfile.sh         # required + picker
-~/.dotfiles/scripts/install-brewfile.sh --all   # required + all optional
-~/.dotfiles/scripts/install-brewfile.sh --none  # required only
+cd ~/.dotfiles
+just                 # default bootstrap
+just optional        # full additional inventory
+just drift           # report Homebrew drift (read-only)
+just stow            # relink configs
+just check           # validate configs without changing anything
+just runtimes        # Node.js and pnpm from mise
+just skills          # install skills listed in skills.txt
+just skills-drift    # report drift from skills.txt (read-only)
+just agents          # install agents and skills
+just macos           # apply macOS preferences
 ```
 
-`Brewfile.optional` format:
+From another directory, pass `--justfile ~/.dotfiles/justfile` before the recipe name.
 
-```text
-brew:doggo                       # modern DNS client
-cask:figma                       # design tool
-tap:anomalyco/tap
-mas:1Password for Safari=1569813296
+`stow` uses an explicit package list, refuses conflicts, and does not adopt, back up, or remove existing files. Zsh history, completion caches, sessions, and local config stay unlinked via `.stowrc`.
+
+## Homebrew
+
+`Brewfile` is the shell essentials (including `just`, Ghostty, VS Code, Worktrunk, GitHub CLI, and Zsh plugins). `optional/Brewfile` is the rest: extra CLIs, fonts, GUI apps, Setapp alternatives, and Mac App Store apps, including alternatives kept side by side. Apply with `just packages` or `just optional`, or edit a manifest and install individual entries.
+
+Do not run `brew bundle cleanup` against only one manifest; that treats the other manifest's entries as unwanted. Use `just drift` to report what is installed but listed in neither file, and what is listed but not installed.
+
+To update, pull Git changes, review them, then run the recipe you want.
+
+## Skills and agents
+
+`skills.txt` lists skills as `<source> <skill>...` per line (`#` starts a whole-line comment). `just skills` runs `scripts/skills.sh`, which uses `skills@1.7.0` to install each entry into `~/.agents/skills` and add Claude Code compatibility links. Codex reads that directory directly. The global lock file is machine state and is not tracked. Removing a line does not uninstall the skill.
+
+`just skills-drift` reports skills listed but not installed, installed but not listed, and `~/.claude/skills` links that are dangling or point outside `~/.agents/skills`.
+
+`just agents` stows the optional mise config for Aube, installs Claude Code via its native installer, installs Aube via mise, then installs the listed skills. Codex is in `optional/Brewfile` (`just optional`). The default mise config is only Node.js and pnpm. Sign in to each tool with its own login flow.
+
+## Worktrees
+
+Set tool roots separately: Claude Code Desktop → Settings → Claude Code → Worktree location → `~/.worktrees/claude`; Codex → Settings → Worktrees → Worktree root → `~/.worktrees/codex`. Worktrunk's tracked template uses `~/.worktrees/worktrunk/<owner>/<repo>/<branch>` (branch names sanitized). Existing Worktrunk worktrees are left in place. Claude Code and Codex preferences stay machine-local.
+
+## Machine-specific shell config
+
+Put machine-only PATH entries and tool init in `~/.config/zsh/.zshrc.local` (gitignored). It loads after shared settings and before syntax highlighting. Add Vite+ or a local OpenCode CLI there when needed. mise manages Node.js and pnpm.
+
+## Authentication and Git signing
+
+Run `gh auth login` for GitHub CLI. Credentials stay in gh's user config, which is not tracked.
+
+For 1Password SSH, enable the SSH agent in 1Password's Developer settings and add to `~/.ssh/config`:
+
+```sshconfig
+Host *
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 ```
 
-Selections feed into `brew bundle --file=-`.
-
-### Maintenance
+For Git signing, choose the public key from your 1Password item and configure the machine-local include:
 
 ```bash
-# Remove anything not in Brewfile (ignores Brewfile.optional)
-brew bundle cleanup --force --file=~/.dotfiles/Brewfile
+git config --file ~/.gitconfig-1password-ssh gpg.format ssh
+git config --file ~/.gitconfig-1password-ssh gpg.ssh.program "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+git config --file ~/.gitconfig-1password-ssh user.signingkey ~/.ssh/your-public-key.pub
+git config --file ~/.gitconfig-1password-ssh commit.gpgsign true
 ```
 
-> **Warning:** avoid `brew bundle dump --file=~/.dotfiles/Brewfile` — it rewrites the
-> file from _everything_ currently installed, which re-bloats the bootstrap-only
-> `Brewfile` and undoes the split. Add new situational items to `Brewfile.optional` by
-> hand instead.
+Replace the public-key path with the key you chose. Keep private keys and generated 1Password or gh state out of this repository.
 
-> **Warning:** `brew bundle cleanup` only consults the required `Brewfile`, so it
-> will uninstall everything you picked from `Brewfile.optional`. Treat it as a reset
-> back to the bootstrap baseline — re-run the picker (or `install-brewfile.sh --all`)
-> to restore your optional packages afterwards.
+## macOS preferences
 
-VS Code extensions sync through Settings Sync, hence `--no-vscode`.
-
-## Adding a new config
-
-Each top-level dir is a stow package, except `scripts`, `rtk`, `.git`, and `.stow-backups`:
-
-```bash
-mkdir -p newtool/.config/newtool
-echo "my config" > newtool/.config/newtool/config.toml
-stow -t ~ newtool
-git add newtool && git commit -m "Add newtool config"
-```
-
-## Machine-specific config
-
-Anything that should only run on one machine (per-machine tool inits, PATH tweaks,
-work-only aliases) goes in `~/.config/zsh/.zshrc.local`, which `.zshrc` sources last and
-`.gitignore` keeps untracked. Bootstrap it from the tracked template:
-
-```bash
-cp ~/.config/zsh/.zshrc.local.example ~/.config/zsh/.zshrc.local
-```
-
-## Skills
-
-`install-skills.sh` activates mise, prepares pnpm via corepack, and runs `pnpm dlx skills experimental_install`. Skills are tracked in `skills/.local/state/skills/.skill-lock.json`.
-
-## rtk
-
-[rtk](https://github.com/rtk-ai/rtk) (Rust Token Killer) is a token-optimizing CLI
-proxy for AI coding agents. It's an optional Brewfile entry — pick it in the picker.
-
-`install-rtk.sh` does three things, all idempotent:
-
-- Symlinks the tracked global filters (`rtk/filters.toml`) into
-  `~/Library/Application Support/rtk/filters.toml`.
-- Wires rtk into **Claude Code** via `rtk init -g --auto-patch` (hook + `RTK.md` +
-  `settings.json` patch + `@RTK.md` reference in `CLAUDE.md`).
-- Wires rtk into **Codex** via `rtk init -g --codex` (`~/.codex/RTK.md` + `@RTK.md`
-  reference in `~/.codex/AGENTS.md`).
-
-```bash
-~/.dotfiles/scripts/install-rtk.sh   # re-run any time; no-ops if already set up
-```
-
-> `rtk` is intentionally **not** a stow package. Its config dir also holds runtime
-> data (`history.db`), so stow would fold that into the repo. The script symlinks
-> only `filters.toml`. The hook/`RTK.md`/agent-config artifacts are regenerated by
-> `rtk init`, so they aren't tracked.
-
-## 1Password
-
-`setup-1password.sh` (optional) writes:
-
-- 1Password SSH agent socket into `~/.ssh/config`
-- `~/.gitconfig-1password-ssh` for SSH-based commit signing (sourced by the main gitconfig)
-
-Requires the 1Password app with SSH agent enabled, the 1Password CLI, and an SSH key item named `GitHub key`.
-
-## macOS defaults
-
-`setup-macos-defaults.sh` (optional) sets:
-
-- Finder: show extensions, path bar, status bar; column view; folders on top; search current folder; new windows open at `$HOME`; no `.DS_Store` on network/USB
-- Dock: `tilesize=37`, hide recent apps
-- Keyboard: fast key repeat (2/15), no press-and-hold accent picker, full keyboard access in dialogs
-- Appearance: auto-switch Light/Dark
-- Launch Services: no "Are you sure?" prompt for downloaded apps
-- Screenshots saved to `~/Downloads`
-- App Store: daily update check, auto-install
+`just macos` applies `scripts/setup-macos-defaults.sh`: Finder display and search, Dock size and recents, keyboard repeat and navigation, automatic appearance, and screenshot location. Set automatic macOS and App Store updates in System Settings → General → Software Update → Automatic Updates; those live in the system domain and this unprivileged script does not change them.

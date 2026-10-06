@@ -1,0 +1,12 @@
+# <source> <skill> [<skill>...]
+# Installed by `just skills`; compared with the machine by `just skills-drift`.
+addyosmani/web-quality-skills accessibility
+vercel-labs/agent-browser agent-browser
+webpro/skills optimize-javascript
+lukebennett88/skills lb-deslop lb-code-style
+shadcn/improve improve
+mattpocock/skills handoff grill-me grill-with-docs grilling resolving-merge-conflicts tdd wait-what wizard
+cursor/plugins thermo-nuclear-code-quality-review
+typesafe-ai/skills typesafe-ai
+pbakaus/impeccable impeccable
+Leonxlnx/taste-skill design-taste-frontend

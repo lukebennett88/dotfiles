@@ -1,5 +1,9 @@
 [settings]
-idiomatic_version_file_enable_tools = ["node"]
+idiomatic_version_file_enable_tools = ["node", "pnpm"]
 
 [tools]
 node = "24"
+pnpm = "12.4.0"
+
+[tool_alias]
+pnpm = "aqua:pnpm/pnpm"

@@ -6,8 +6,24 @@ alias ...='cd ../..'			# Go up two directories
 alias ....='cd ../../..'	# Go up three directories
 
 # Common commands
-alias c='clear'												# Clear the terminal screen
-alias reload='source $ZDOTDIR/.zshrc'	# Reload zsh configuration
+alias c='clear'						# Clear the terminal screen
+alias reload='exec zsh'		# Restart zsh to reload configuration
+
+# Git shortcuts
+alias gst='git status'
+alias ga='git add'
+alias gaa='git add --all'
+alias gapa='git add --patch'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias gc='git commit --verbose'
+alias gcmsg='git commit --message'
+alias gco='git checkout'
+alias gcb='git checkout -b'
+alias gf='git fetch'
+alias gl='git pull'
+alias gp='git push'
+alias glog='git log --oneline --decorate --graph'
 
 # Modern replacements for standard tools
 alias cat='bat'																								# A 'cat' clone with syntax highlighting and git integration
@@ -22,8 +38,7 @@ alias cc="claude --dangerously-skip-permissions"							# Run Claude Code in yolo
 	alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 # Brewfile Aliases
-alias binstall='brew bundle --file=~/.dotfiles/Brewfile'
-# Snapshot what's installed to a scratch file for review — never clobbers the
-# bootstrap Brewfile. Cherry-pick anything new into Brewfile.optional by hand.
+alias binstall='just --justfile "$HOME/.dotfiles/justfile" packages'
+alias bapps='just --justfile "$HOME/.dotfiles/justfile" optional'
+# Dump installed formulae to /tmp for review; does not rewrite the manifests.
 alias bdump='brew bundle dump --force --no-vscode --file=/tmp/Brewfile.dump'
-alias bclean='brew bundle cleanup --force --file=~/.dotfiles/Brewfile'

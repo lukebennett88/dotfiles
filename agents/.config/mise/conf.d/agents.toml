@@ -1,0 +1,5 @@
+[tools]
+aube = "latest"
+
+[env]
+AUBE_PREFER_SYMLINKED_EXECUTABLES = "true"

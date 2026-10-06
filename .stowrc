@@ -1,0 +1,8 @@
+--target=$HOME
+--no-folding
+--ignore=\.DS_Store$
+--ignore=\.zsh_history$
+--ignore=\.zcompdump[^/]*$
+--ignore=\.zcompcache($|/)
+--ignore=\.zsh_sessions($|/)
+--ignore=\.zshrc\.local$

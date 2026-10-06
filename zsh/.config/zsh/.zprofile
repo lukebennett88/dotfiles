@@ -1,13 +1,9 @@
 # Executed at login. Environmental variables set here will be available to
 # graphical applications and all shell sessions.
 
-# Set Homebrew path based on system architecture
-if [[ $(uname -m) == 'arm64' ]]; then
-	# Apple Silicon Mac
+# Set the Apple Silicon Homebrew path.
+if [[ -x /opt/homebrew/bin/brew ]]; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
-else
-	# Intel Mac
-	eval "$(/usr/local/bin/brew shellenv)"
 fi
 
 # Set XDG directories for consistent file organisation
